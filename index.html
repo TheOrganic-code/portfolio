@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayush Pandey | Researcher & AI Engineer</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#7b2ffc #0a0a1a}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:#0a0a1a}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#7b2ffc,#ff6b9d);border-radius:3px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a1a;color:#e8e0f0;overflow-x:hidden;line-height:1.6}
+
+    /* ─── Stars Canvas ─── */
+    #stars-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+    #nebula-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.4}
+
+    /* ─── Cursor Glow ─── */
+    #cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(123,47,252,.12),transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:opacity .3s}
+
+    /* ─── Navigation ─── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,26,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(123,47,252,.15)}
+    nav .logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#c084fc,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    nav ul{display:flex;gap:1.5rem;list-style:none}
+    nav ul li a{color:#a89bc0;text-decoration:none;font-size:.875rem;font-weight:500;transition:color .3s;position:relative;padding:.25rem 0}
+    nav ul li a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:linear-gradient(90deg,#7b2ffc,#ff6b9d);transition:width .3s}
+    nav ul li a:hover{color:#e8e0f0}
+    nav ul li a:hover::after{width:100%}
+
+    /* ─── Sections ─── */
+    section{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:6rem 2rem}
+    .section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:3px;color:#7b2ffc;margin-bottom:.75rem;font-weight:600}
+    .section-title{font-size:2.5rem;font-weight:700;margin-bottom:3rem;background:linear-gradient(135deg,#e8e0f0,#a89bc0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* ─── Hero ─── */
+    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:5rem;position:relative;z-index:1}
+    #hero .greeting{font-size:1.1rem;color:#7b2ffc;margin-bottom:.5rem;font-weight:500}
+    #hero h1{font-size:4.5rem;font-weight:800;line-height:1.1;margin-bottom:.75rem;background:linear-gradient(135deg,#c084fc 0%,#818cf8 30%,#38bdf8 60%,#f472b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientShift 6s ease infinite}
+    @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    #hero .subtitle{font-size:1.25rem;color:#a89bc0;margin-bottom:1.5rem;min-height:1.8em}
+    #hero .subtitle .cursor{display:inline-block;width:2px;height:1.2em;background:#7b2ffc;margin-left:4px;vertical-align:text-bottom;animation:blink .8s step-end infinite}
+    @keyframes blink{50%{opacity:0}}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2.5rem}
+    .hero-badge{padding:.35rem .9rem;border-radius:9999px;font-size:.8rem;font-weight:500;border:1px solid rgba(123,47,252,.3);background:rgba(123,47,252,.08);color:#c084fc}
+    .social-links{display:flex;gap:1rem;flex-wrap:wrap}
+    .social-link{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border-radius:9999px;font-size:.875rem;font-weight:500;text-decoration:none;transition:all .3s;border:1px solid rgba(123,47,252,.25);color:#c084fc;background:rgba(123,47,252,.06)}
+    .social-link:hover{border-color:#7b2ffc;background:rgba(123,47,252,.15);transform:translateY(-2px);box-shadow:0 8px 25px rgba(123,47,252,.2)}
+    .social-link.primary{background:linear-gradient(135deg,#7b2ffc,#5b21b6);color:white;border:none}
+    .social-link.primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(123,47,252,.35)}
+
+    /* ─── Cards (Glassmorphism) ─── */
+    .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:2rem;margin-bottom:1.5rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all .4s;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(123,47,252,.04),transparent);transition:left .6s;pointer-events:none}
+    .card:hover::before{left:100%}
+    .card:hover{border-color:rgba(123,47,252,.2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+    .card .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem}
+    .card h3{font-size:1.2rem;font-weight:600;color:#e8e0f0}
+    .card .date{font-size:.8rem;color:#7b2ffc;font-weight:500;padding:.2rem .6rem;border-radius:9999px;background:rgba(123,47,252,.1);white-space:nowrap}
+    .card .location{font-size:.85rem;color:#818cf8;margin-bottom:.75rem}
+    .card p,.card li{font-size:.95rem;color:#a89bc0;line-height:1.7}
+    .card ul{list-style:none;padding:0}
+    .card ul li{padding:.35rem 0;padding-left:1.2rem;position:relative}
+    .card ul li::before{content:'✦';position:absolute;left:0;color:#7b2ffc;font-size:.7rem;top:.55rem}
+
+    /* ─── Skills ─── */
+    .skills-grid{display:flex;flex-wrap:wrap;gap:.6rem}
+    .skill-tag{padding:.4rem .85rem;border-radius:9999px;font-size:.82rem;font-weight:500;border:1px solid rgba(123,47,252,.2);background:rgba(123,47,252,.06);color:#c084fc;transition:all .3s}
+    .skill-tag:hover{border-color:#7b2ffc;background:rgba(123,47,252,.15);transform:translateY(-2px);box-shadow:0 4px 15px rgba(123,47,252,.15)}
+    .skill-category{margin-bottom:2rem}
+    .skill-category h4{font-size:.85rem;text-transform:uppercase;letter-spacing:1.5px;color:#818cf8;margin-bottom:.75rem}
+
+    /* ─── Projects Grid ─── */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+    .project-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1.75rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all .4s;position:relative;overflow:hidden;cursor:default}
+    .project-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(transparent,rgba(123,47,252,.03),transparent 30%);animation:rotateGlow 8s linear infinite;opacity:0;transition:opacity .4s;pointer-events:none}
+    .project-card:hover::before{opacity:1}
+    @keyframes rotateGlow{to{transform:rotate(360deg)}}
+    .project-card:hover{border-color:rgba(123,47,252,.25);transform:translateY(-5px);box-shadow:0 16px 50px rgba(0,0,0,.35)}
+    .project-card .project-icon{font-size:1.8rem;margin-bottom:.75rem;display:block}
+    .project-card h3{font-size:1.1rem;font-weight:600;color:#e8e0f0;margin-bottom:.5rem}
+    .project-card p{font-size:.88rem;color:#a89bc0;line-height:1.6;margin-bottom:1rem}
+    .project-card .project-lang{font-size:.75rem;color:#7b2ffc;font-weight:500;display:inline-block}
+
+    /* ─── Research ─── */
+    .research-card{border-left:2px solid;border-image:linear-gradient(180deg,#7b2ffc,#ff6b9d)1;padding:1.5rem;background:rgba(255,255,255,.02);border-radius:0 1rem 1rem 0;margin-bottom:1rem;transition:all .3s}
+    .research-card:hover{background:rgba(123,47,252,.06)}
+    .research-card p{color:#a89bc0;font-size:.95rem}
+
+    /* ─── Footer ─── */
+    footer{position:relative;z-index:1;text-align:center;padding:3rem 2rem;border-top:1px solid rgba(123,47,252,.1);color:#6b5b8a;font-size:.85rem}
+    footer .footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
+    footer .footer-links a{color:#a89bc0;text-decoration:none;transition:color .3s;font-size:.9rem}
+    footer .footer-links a:hover{color:#c084fc}
+
+    /* ─── Reveal Animations ─── */
+    .reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.22,1,.36,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s}
+    .reveal-delay-2{transition-delay:.2s}
+    .reveal-delay-3{transition-delay:.3s}
+
+    /* ─── Scroll Indicator ─── */
+    .scroll-indicator{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:#6b5b8a;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s infinite}
+    .scroll-indicator .line{width:1px;height:40px;background:linear-gradient(180deg,#7b2ffc,transparent)}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+    /* ─── Responsive ─── */
+    @media(max-width:768px){
+      nav{padding:.75rem 1rem}
+      nav ul{gap:.75rem}
+      nav ul li a{font-size:.75rem}
+      #hero h1{font-size:2.8rem}
+      #hero .subtitle{font-size:1rem}
+      section{padding:4rem 1.25rem}
+      .section-title{font-size:1.8rem;margin-bottom:2rem}
+      .card{padding:1.25rem}
+      .projects-grid{grid-template-columns:1fr}
+      .hero-badges{gap:.5rem}
+      .hero-badges .hero-badge{font-size:.7rem;padding:.25rem .65rem}
+    }
+    @media(max-width:480px){
+      #hero h1{font-size:2.2rem}
+      nav ul{display:none}
+      .section-title{font-size:1.5rem}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Background Canvases ─── -->
+  <canvas id="stars-canvas"></canvas>
+  <div id="cursor-glow"></div>
+
+  <!-- ─── Navigation ─── -->
+  <nav>
+    <span class="logo">✦ ayush</span>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── Hero ─── -->
+  <section id="hero">
+    <div class="greeting reveal">Hello, universe ✦</div>
+    <h1 class="reveal reveal-delay-1">Ayush Pandey</h1>
+    <div class="subtitle reveal reveal-delay-2">
+      <span id="typing-text"></span><span class="cursor"></span>
+    </div>
+    <div class="hero-badges reveal reveal-delay-2">
+      <span class="hero-badge">ML & AI Research</span>
+      <span class="hero-badge">Quantum Computing</span>
+      <span class="hero-badge">Rust Systems</span>
+      <span class="hero-badge">Physics × ML</span>
+    </div>
+    <div class="social-links reveal reveal-delay-3">
+      <a href="https://github.com/TheOrganic-code" target="_blank" class="social-link">🐙 GitHub</a>
+      <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank" class="social-link">💼 LinkedIn</a>
+      <a href="https://sites.google.com/rgipt.ac.in/magneism-lab/home" target="_blank" class="social-link">🔬 QM Lab</a>
+      <a href="https://digitwin.ai/" target="_blank" class="social-link">🤖 Digitwin AI</a>
+      <a href="mailto:grunchie1801@gmail.com" class="social-link primary">✉️ Contact Me</a>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <!-- ─── About / Education ─── -->
+  <section id="about">
+    <div class="section-label reveal">About</div>
+    <h2 class="section-title reveal">Education & Journey</h2>
+    <div class="card reveal">
+      <div class="card-header">
+        <h3>Rajiv Gandhi Institute of Petroleum Technology</h3>
+        <span class="date">2025 – 2029</span>
+      </div>
+      <div class="location">Jais, India</div>
+      <p><strong>B.Tech in Mathematics and Computing</strong> — Cumulative CPI: <strong>8.68</strong></p>
+      <p style="margin-top:.5rem;font-size:.88rem;color:#818cf8">
+        Coursework: Data Structures & Algorithms · Linear Algebra · Differential Equations · Modern Physics · MATLAB
+      </p>
+    </div>
+    <div class="card reveal reveal-delay-1">
+      <p style="font-size:.95rem;color:#a89bc0">
+        I work at the intersection of <strong style="color:#c084fc">machine learning</strong>, 
+        <strong style="color:#818cf8">quantum physics</strong>, and <strong style="color:#f472b6">systems programming</strong>.
+        From simulating probabilistic computing with p-bits to building neural network frameworks from scratch in Rust,
+        I'm driven by the idea that the most interesting discoveries happen at the boundaries between disciplines.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── Experience ─── -->
+  <section id="experience">
+    <div class="section-label reveal">Experience</div>
+    <h2 class="section-title reveal">Where I've Worked</h2>
+
+    <div class="card reveal">
+      <div class="card-header">
+        <div>
+          <h3>Undergraduate Researcher</h3>
+          <p style="font-size:.85rem;color:#818cf8;margin-top:.2rem">Quantum Materials Lab, RGIPT</p>
+        </div>
+        <span class="date">Jan – Jun 2026</span>
+      </div>
+      <div class="location">Jais, India</div>
+      <ul>
+        <li>Research on Muon Spin Relaxation for finding dipolar and local fields in crystal structures using PINNs and PhyCNNs.</li>
+        <li>Utilizing PyMatGen and PyTorch for complex materials-related calculations and computational modeling.</li>
+        <li>Leveraging scientific computing libraries (NumPy, SciPy, Pandas) to analyze physical datasets and optimize material property predictions.</li>
+      </ul>
+    </div>
+
+    <div class="card reveal reveal-delay-1">
+      <div class="card-header">
+        <div>
+          <h3>AI Engineer Intern</h3>
+          <p style="font-size:.85rem;color:#818cf8;margin-top:.2rem">Digitwin Technology</p>
+        </div>
+        <span class="date">May 2026 – Present</span>
+      </div>
+      <div class="location">Chennai, India</div>
+      <ul>
+        <li>Fine-tuning LLMs on domain-specific industrial datasets to improve task performance in specialized enterprise workflows.</li>
+        <li>Building and optimizing RAG pipelines for industrial use cases, enabling accurate, grounded information retrieval over proprietary knowledge bases.</li>
+        <li>Working at the intersection of applied AI and industry, translating research-grade techniques into production-ready systems.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─── Projects ─── -->
+  <section id="projects">
+    <div class="section-label reveal">Projects</div>
+    <h2 class="section-title reveal">Things I've Built</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <span class="project-icon">🦀</span>
+        <h3>NeuraRust</h3>
+        <p>A neural network framework built from scratch in Rust — memory-safe, performant, with zero-cost abstractions and zero external ML dependencies.</p>
+        <span class="project-lang">Rust · Tensors · AutoDiff</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-1">
+        <span class="project-icon">⚛️</span>
+        <h3>P-bit Simulator</h3>
+        <p>Probabilistic computing simulator grounded in Ising spin systems and Boltzmann machines with tunable thermal noise. Verified via energy minimization on MAX-CUT benchmarks.</p>
+        <span class="project-lang">Python · PyTorch · Ising Models</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <span class="project-icon">🧠</span>
+        <h3>Brain Tumor Classifier</h3>
+        <p>Deep learning project using PyTorch — CNN-based classifier for medical imaging with Grad-CAM visualizations for interpretability.</p>
+        <span class="project-lang">PyTorch · CNNs · Grad-CAM</span>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-icon">🌌</span>
+        <h3>Golden Monte Carlo</h3>
+        <p>Monte-Carlo estimator for the golden ratio through stochastic Fibonacci sequence dynamics — a blend of math, randomness, and computation.</p>
+        <span class="project-lang">Python · Monte Carlo · Stochastic</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-1">
+        <span class="project-icon">🔮</span>
+        <h3>UnoBit</h3>
+        <p>A low-bit machine learning library exploring quantization-aware training and efficient inference at reduced numerical precision.</p>
+        <span class="project-lang">Python · Quantization · ML</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <span class="project-icon">🪐</span>
+        <h3>Habitability Predictor</h3>
+        <p>ML model using Random Forest (scikit-learn) to predict exoplanet habitability from planetary and stellar features.</p>
+        <span class="project-lang">Python · scikit-learn · Pandas</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── Skills ─── -->
+  <section id="skills">
+    <div class="section-label reveal">Skills</div>
+    <h2 class="section-title reveal">Tech & Tools</h2>
+
+    <div class="skill-category reveal">
+      <h4>Languages</h4>
+      <div class="skills-grid">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">Rust</span>
+      </div>
+    </div>
+
+    <div class="skill-category reveal reveal-delay-1">
+      <h4>ML / Deep Learning</h4>
+      <div class="skills-grid">
+        <span class="skill-tag">PyTorch</span>
+        <span class="skill-tag">scikit-learn</span>
+        <span class="skill-tag">CNNs</span>
+        <span class="skill-tag">Energy-Based Models</span>
+        <span class="skill-tag">Grad-CAM</span>
+        <span class="skill-tag">LoRA / QLoRA</span>
+      </div>
+    </div>
+
+    <div class="skill-category reveal reveal-delay-2">
+      <h4>LLM Inference & Optimization</h4>
+      <div class="skills-grid">
+        <span class="skill-tag">KV Cache</span>
+        <span class="skill-tag">FlashAttention</span>
+        <span class="skill-tag">Speculative Decoding</span>
+        <span class="skill-tag">GPTQ</span>
+        <span class="skill-tag">AWQ</span>
+        <span class="skill-tag">BitsAndBytes</span>
+        <span class="skill-tag">vLLM</span>
+        <span class="skill-tag">torch.compile</span>
+      </div>
+    </div>
+
+    <div class="skill-category reveal">
+      <h4>Data & Scientific Computing</h4>
+      <div class="skills-grid">
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">PyMatGen</span>
+        <span class="skill-tag">Matplotlib</span>
+        <span class="skill-tag">Seaborn</span>
+        <span class="skill-tag">SciPy</span>
+        <span class="skill-tag">MATLAB</span>
+      </div>
+    </div>
+
+    <div class="skill-category reveal reveal-delay-1">
+      <h4>Systems & Tools</h4>
+      <div class="skills-grid">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">WSL2</span>
+        <span class="skill-tag">Rust (Systems)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Research ─── -->
+  <section id="research">
+    <div class="section-label reveal">Research</div>
+    <h2 class="section-title reveal">Publications & Interests</h2>
+
+    <div class="research-card reveal">
+      <p><strong style="color:#e8e0f0">Paper on Muon Spin Relaxation</strong> — submitted to <strong style="color:#818cf8">Physical Review B (PRB)</strong> as co-author.</p>
+    </div>
+
+    <div class="research-card reveal reveal-delay-1">
+      <p><strong style="color:#e8e0f0">Paper on Muon Spin Relaxation & ML</strong> — to be drafted soon as <strong style="color:#818cf8">first author</strong>.</p>
+    </div>
+
+    <div class="research-card reveal reveal-delay-2">
+      <p><strong style="color:#e8e0f0">Research Interests:</strong> Probabilistic Computing · Quantum Computing · ML Optimization · AI for Materials Science · Physics-Informed Neural Networks</p>
+    </div>
+  </section>
+
+  <!-- ─── Contact ─── -->
+  <section id="contact">
+    <div class="section-label reveal">Connect</div>
+    <h2 class="section-title reveal">Let's Talk</h2>
+    <div style="text-align:center;max-width:500px;margin:0 auto">
+      <p class="reveal" style="color:#a89bc0;margin-bottom:2rem;font-size:1.05rem">
+        Whether it's research, open-source, or just chatting about quantum ML — I'm always open to interesting conversations.
+      </p>
+      <div class="social-links reveal reveal-delay-1" style="justify-content:center;margin-bottom:1.5rem">
+        <a href="mailto:grunchie1801@gmail.com" class="social-link primary">✉️ grunchie1801@gmail.com</a>
+      </div>
+      <div class="social-links reveal reveal-delay-2" style="justify-content:center">
+        <a href="https://github.com/TheOrganic-code" target="_blank" class="social-link">🐙 GitHub</a>
+        <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank" class="social-link">💼 LinkedIn</a>
+        <a href="https://sites.google.com/rgipt.ac.in/magneism-lab/home" target="_blank" class="social-link">🔬 QM Lab</a>
+        <a href="https://digitwin.ai/" target="_blank" class="social-link">🤖 Digitwin AI</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/TheOrganic-code" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank">LinkedIn</a>
+      <a href="mailto:grunchie1801@gmail.com">Email</a>
+    </div>
+    <p>✦ Crafted with code, curiosity & cosmic energy</p>
+    <p style="margin-top:.25rem">&copy; 2026 Ayush Pandey</p>
+  </footer>
+
+  <script>
+    // ─── Stars Animation ───
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    let shootingStars = [];
+    let mouseX = 0, mouseY = 0;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Star {
+      constructor() { this.reset() }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + .3;
+        this.alpha = Math.random() * .7 + .3;
+        this.twinkleSpeed = Math.random() * .01 + .005;
+        this.twinklePhase = Math.random() * Math.PI * 2;
+        this.baseAlpha = this.alpha;
+      }
+      update() {
+        this.twinklePhase += this.twinkleSpeed;
+        this.alpha = this.baseAlpha * (.5 + .5 * Math.sin(this.twinklePhase));
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 180, 255, ${this.alpha})`;
+        ctx.fill();
+
+        if (this.size > 1.2) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(123, 47, 252, ${this.alpha * .08})`;
+          ctx.fill();
+        }
+      }
+    }
+
+    class ShootingStar {
+      constructor() {
+        this.reset();
+        this.active = false;
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height * .3;
+        this.length = Math.random() * 120 + 60;
+        this.speed = Math.random() * 8 + 4;
+        this.angle = Math.PI / 4 + Math.random() * Math.PI / 6;
+        this.alpha = 1;
+        this.trail = [];
+      }
+      update() {
+        if (!this.active) return;
+        this.trail.push({ x: this.x, y: this.y });
+        if (this.trail.length > 20) this.trail.shift();
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        this.alpha -= .005;
+        if (this.alpha <= 0 || this.x > canvas.width + 100 || this.y > canvas.height + 100) {
+          this.active = false;
+          setTimeout(() => { this.reset(); this.active = true; }, Math.random() * 8000 + 2000);
+        }
+      }
+      draw() {
+        if (!this.active || this.trail.length < 2) return;
+        for (let i = 1; i < this.trail.length; i++) {
+          const t = i / this.trail.length;
+          ctx.beginPath();
+          ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
+          ctx.lineTo(this.trail[i].x, this.trail[i].y);
+          ctx.strokeStyle = `rgba(255, 200, 255, ${t * this.alpha * .6})`;
+          ctx.lineWidth = t * 2;
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 220, 255, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 200; i++) stars.push(new Star());
+    for (let i = 0; i < 3; i++) {
+      const s = new ShootingStar();
+      s.active = true;
+      shootingStars.push(s);
+    }
+
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(s => { s.update(); s.draw() });
+      shootingStars.forEach(s => { s.update(); s.draw() });
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+
+    // ─── Cursor Glow ───
+    const glow = document.getElementById('cursor-glow');
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      glow.style.left = mouseX + 'px';
+      glow.style.top = mouseY + 'px';
+    });
+
+    // ─── Typing Effect ───
+    const texts = [
+      'Undergraduate Researcher @ Quantum Materials Lab',
+      'AI Engineering Intern @ Digitwin Technology',
+      'Building at the intersection of ML, Physics & Systems',
+      'Exploring probabilistic computing & quantum ML'
+    ];
+    let textIdx = 0, charIdx = 0, isDeleting = false;
+    const el = document.getElementById('typing-text');
+
+    function type() {
+      const current = texts[textIdx];
+      if (!isDeleting) {
+        el.textContent = current.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === current.length) { setTimeout(() => { isDeleting = true }, 1500); return }
+        setTimeout(type, 50 + Math.random() * 30);
+      } else {
+        el.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        if (charIdx === 0) {
+          isDeleting = false;
+          textIdx = (textIdx + 1) % texts.length;
+          setTimeout(type, 300);
+          return;
+        }
+        setTimeout(type, 25 + Math.random() * 15);
+      }
+    }
+    setTimeout(type, 500);
+
+    // ─── Reveal on Scroll ───
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible') }
+      });
+    }, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
