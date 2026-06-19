@@ -2,6 +2,6 @@ services:
   - type: web
     name: ayush-portfolio
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: NODE_ENV=development npm install && npm run build
     startCommand: node server.js
     plan: free
