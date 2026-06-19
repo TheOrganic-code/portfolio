@@ -1,141 +1,161 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const projects = [
   {
-    num: '01',
-    name: 'NeuraRust',
-    category: 'Systems / ML',
-    client: 'Open Source',
-    col1: [
-      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=80',
-      'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&q=80',
+    title: 'Muon Site Detection using ML',
+    subtitle: 'Physics + Machine Learning Research',
+    problem: 'Predicting muon stopping sites in crystalline materials is computationally expensive and requires extensive physical simulation. Traditional methods lack accuracy and scalability.',
+    approach: 'Developed a machine learning approach combining crystal structure features with physics-informed constraints to predict muon sites with higher accuracy and significantly reduced computational cost.',
+    tech: ['PyTorch', 'PINNs', 'PyMatGen', 'NumPy', 'SciPy'],
+    outcomes: [
+      'Improved prediction accuracy over traditional methods',
+      'Reduced computation time by orders of magnitude',
+      'Co-author on paper submitted to Physical Review B',
     ],
-    col2: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&q=80',
+    github: 'https://github.com/TheOrganic-code/P-bit-Simulator',
+    flip: false,
   },
   {
-    num: '02',
-    name: 'P-bit Simulator',
-    category: 'Physics / ML',
-    client: 'Research',
-    col1: [
-      'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=600&q=80',
-      'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=600&q=80',
+    title: 'P-Bit Simulator & Library',
+    subtitle: 'Probabilistic Computing Framework',
+    problem: 'Probabilistic computing with p-bits requires robust simulation frameworks for Ising spin systems and Boltzmann machines, with tunable thermal noise and reliable convergence verification.',
+    approach: 'Built a stochastic computing simulator from scratch using PyTorch, implementing Ising spin dynamics with tunable noise. Verified convergence via energy minimization on MAX-CUT benchmarks.',
+    tech: ['Python', 'PyTorch', 'Ising Models', 'Energy-Based Models'],
+    outcomes: [
+      'Verified convergence on standard MAX-CUT benchmarks',
+      'Reusable p-bit library with PyTorch-compatible APIs',
+      'Enables hybrid deterministic-stochastic workflows',
     ],
-    col2: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80',
+    github: 'https://github.com/TheOrganic-code/P-bit-Simulator',
+    flip: true,
   },
   {
-    num: '03',
-    name: 'Brain Tumor Classifier',
-    category: 'Deep Learning',
-    client: 'Academic',
-    col1: [
-      'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=600&q=80',
-      'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80',
+    title: 'Habitability Predictor',
+    subtitle: 'Exoplanet ML Classification',
+    problem: 'Classifying exoplanet habitability from astrophysical data requires handling complex feature interactions across planetary and stellar parameters.',
+    approach: 'Designed a Random Forest classifier trained on planetary and stellar feature datasets, using scikit-learn with careful feature engineering and cross-validation.',
+    tech: ['Python', 'scikit-learn', 'Pandas', 'NumPy', 'Matplotlib'],
+    outcomes: [
+      'Accurate habitability classification from stellar/planetary features',
+      'Feature importance analysis revealing key predictive factors',
+      'End-to-end ML pipeline for astrophysical data',
     ],
-    col2: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&q=80',
+    github: 'https://github.com/TheOrganic-code/Habitability-Predictor',
+    flip: false,
+  },
+  {
+    title: 'Brain Tumor Classifier',
+    subtitle: 'Deep Learning for Medical Imaging',
+    problem: 'Automated brain tumor classification from MRI scans requires robust CNN architectures with interpretable predictions for clinical trust and validation.',
+    approach: 'Built a CNN-based deep learning pipeline using PyTorch with Grad-CAM visualization for model interpretability, enabling clinicians to verify model focus regions.',
+    tech: ['PyTorch', 'CNNs', 'Grad-CAM', 'Medical Imaging'],
+    outcomes: [
+      'Accurate tumor classification from MRI scans',
+      'Grad-CAM visualizations for clinical interpretability',
+      'End-to-end deep learning pipeline for medical imaging',
+    ],
+    image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80',
+    github: 'https://github.com/TheOrganic-code/Brain-Tumor-Classifier',
+    flip: true,
   },
 ]
 
-function ProjectCard({
-  project,
-  index,
-}: {
-  project: (typeof projects)[0]
-  index: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const totalCards = projects.length
-  const targetScale = 1 - (totalCards - 1 - index) * 0.03
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 0.8', 'start 0.1'],
-  })
-
-  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale])
-
-  return (
-    <div ref={ref} className="h-[85vh] sticky top-24 md:top-32 z-10" style={{ top: `${index * 28}px` }}>
-      <motion.div
-        style={{ scale, transformOrigin: 'top center' }}
-        className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 h-full overflow-hidden"
-      >
-        <div className="flex items-start justify-between mb-4 sm:mb-6">
-          <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
-            <span
-              className="text-[#D7E2EA] font-black leading-none"
-              style={{ fontSize: 'clamp(3rem, 10vw, 140px)' }}
-            >
-              {project.num}
-            </span>
-            <div>
-              <p className="text-[#D7E2EA] font-medium uppercase opacity-70 text-sm sm:text-base">{project.category}</p>
-              <h3
-                className="text-[#D7E2EA] font-medium uppercase leading-tight"
-                style={{ fontSize: 'clamp(1rem, 2.2vw, 2.1rem)' }}
-              >
-                {project.name}
-              </h3>
-              <p className="text-[#D7E2EA] text-xs sm:text-sm opacity-50 mt-1">{project.client}</p>
-            </div>
-          </div>
-          <a href="https://github.com/TheOrganic-code" target="_blank" rel="noopener noreferrer">
-            <button
-              className="rounded-full border-2 border-[#D7E2EA] text-[#D7E2EA] font-medium uppercase tracking-widest
-                         px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base
-                         hover:bg-[#D7E2EA]/10 transition-all duration-200"
-            >
-              Live Project
-            </button>
-          </a>
-        </div>
-
-        <div className="flex gap-3 sm:gap-4 h-[calc(100%-8rem)]">
-          <div className="w-[40%] flex flex-col gap-3 sm:gap-4">
-            <img
-              src={project.col1[0]}
-              alt=""
-              loading="lazy"
-              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-              style={{ height: 'clamp(130px, 16vw, 230px)' }}
-            />
-            <img
-              src={project.col1[1]}
-              alt=""
-              loading="lazy"
-              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-              style={{ height: 'clamp(160px, 22vw, 340px)' }}
-            />
-          </div>
-          <div className="w-[60%]">
-            <img
-              src={project.col2}
-              alt=""
-              loading="lazy"
-              className="w-full h-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-            />
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  )
-}
-
 export function ProjectsSection() {
   return (
-    <section className="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 relative px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-32">
-      <h2
-        className="hero-heading font-black uppercase text-center mb-20"
-        style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
-      >
-        Project
-      </h2>
+    <section className="relative z-10 px-6 md:px-12 lg:px-24 py-24">
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center gap-3 mb-3"
+        >
+          <span className="w-1 h-5 bg-[#8B5CF6] rounded-full" />
+          <h2 className="text-sm font-medium text-[#8B5CF6] uppercase tracking-widest">Featured Projects</h2>
+        </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-[#707070] text-base max-w-xl mb-16"
+        >
+          Research and engineering projects at the intersection of ML, physics, and systems.
+        </motion.p>
 
-      <div className="max-w-6xl mx-auto">
-        {projects.map((project, i) => (
-          <ProjectCard key={project.num} project={project} index={i} />
-        ))}
+        <div className="space-y-20">
+          {projects.map((proj, i) => (
+            <motion.div
+              key={proj.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className={`flex flex-col ${proj.flip ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 lg:gap-12 items-start`}
+            >
+              {/* Image */}
+              <div className="w-full lg:w-1/2">
+                <div className="rounded-xl overflow-hidden card-border">
+                  <img
+                    src={proj.image}
+                    alt={proj.title}
+                    loading="lazy"
+                    className="w-full h-64 sm:h-80 lg:h-96 object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="w-full lg:w-1/2 space-y-5">
+                <div>
+                  <p className="text-[#8B5CF6] text-xs font-medium uppercase tracking-wider mb-1">{proj.subtitle}</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">{proj.title}</h3>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-semibold text-[#707070] uppercase tracking-wider mb-1.5">Problem</h4>
+                  <p className="text-[#A0A0A0] text-sm leading-relaxed">{proj.problem}</p>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-semibold text-[#707070] uppercase tracking-wider mb-1.5">Approach</h4>
+                  <p className="text-[#A0A0A0] text-sm leading-relaxed">{proj.approach}</p>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5">
+                  {proj.tech.map((t) => (
+                    <span key={t} className="text-xs px-2.5 py-1 rounded-md bg-[#1A1A1A] text-[#A0A0A0] border border-[#252525]">{t}</span>
+                  ))}
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-semibold text-[#707070] uppercase tracking-wider mb-1.5">Outcomes</h4>
+                  <ul className="space-y-1">
+                    {proj.outcomes.map((o) => (
+                      <li key={o} className="text-[#A0A0A0] text-sm flex items-start gap-2">
+                        <span className="text-[#8B5CF6] mt-1 flex-shrink-0">&#x2022;</span>
+                        {o}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <a
+                  href={proj.github}
+                  target="_blank"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#2A2A2A] text-[#A0A0A0] text-sm font-medium hover:border-[#8B5CF6] hover:text-[#8B5CF6] transition-all"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  View on GitHub
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )

@@ -1,4 +1,5 @@
 # design
+- Source portfolio images from Pinterest and professional stock sources (Unsplash, Pexels) used by professional website designers — avoid generic AI-generated or irrelevant placeholder imagery. Confidence: 0.65
 - Use Google Fonts (e.g., Space Grotesk, Inter, JetBrains Mono) instead of system fonts for polished typography. Confidence: 0.70
 - Every visual element (icons, images, SVGs) on a project card or section must be semantically relevant to that project's domain — no decorative/placeholder imagery that contradicts the subject (e.g., no sunflower for a Rust project). Confidence: 0.80
 - Make project cards clickable with live canvas-based demos/simulations showing what each project does. Confidence: 0.70

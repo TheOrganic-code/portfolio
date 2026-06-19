@@ -2,22 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+html {
+  scroll-behavior: smooth;
 }
 
-html, body, #root {
-  background: #0C0C0C;
-  font-family: 'Kanit', sans-serif;
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0B0B0B;
+  color: #F5F5F5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.hero-heading {
-  background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+::selection {
+  background: rgba(139, 92, 246, 0.25);
+  color: #fff;
+}
+
+.purple-glow {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.06);
+}
+
+.card-border {
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.card-hover {
+  transition: all 0.25s ease;
+}
+
+.card-hover:hover {
+  border-color: rgba(139, 92, 246, 0.15);
+  background: rgba(139, 92, 246, 0.02);
 }
