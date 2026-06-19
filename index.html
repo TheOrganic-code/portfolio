@@ -3,283 +3,357 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ayush Pandey | Researcher & AI Engineer</title>
+  <title>Ayush Pandey · ML Research & Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#7b2ffc #0a0a1a}
-    ::-webkit-scrollbar{width:6px}
-    ::-webkit-scrollbar-track{background:#0a0a1a}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#7b2ffc,#ff6b9d);border-radius:3px}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a1a;color:#e8e0f0;overflow-x:hidden;line-height:1.6}
+    /* ─── Reset & Base ─── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',-apple-system,sans-serif;background:#07070e;color:#e2e0eb;overflow-x:hidden;line-height:1.65;font-size:15px}
+    ::selection{background:rgba(139,92,246,.3);color:#fff}
+    img{max-width:100%;display:block}
 
-    /* ─── Stars Canvas ─── */
-    #stars-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
-    #nebula-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.4}
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:#07070e}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(#7c3aed,#a21caf);border-radius:3px}
 
-    /* ─── Cursor Glow ─── */
-    #cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(123,47,252,.12),transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:opacity .3s}
+    /* ─── Font shortcuts ─── */
+    h1,h2,h3,h4,.font-display{font-family:'Space Grotesk',sans-serif}
+    code,.font-mono{font-family:'JetBrains Mono',monospace}
 
-    /* ─── Navigation ─── */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,26,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(123,47,252,.15)}
-    nav .logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#c084fc,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    nav ul{display:flex;gap:1.5rem;list-style:none}
-    nav ul li a{color:#a89bc0;text-decoration:none;font-size:.875rem;font-weight:500;transition:color .3s;position:relative;padding:.25rem 0}
-    nav ul li a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:linear-gradient(90deg,#7b2ffc,#ff6b9d);transition:width .3s}
-    nav ul li a:hover{color:#e8e0f0}
-    nav ul li a:hover::after{width:100%}
+    /* ─── Background effect ─── */
+    #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+    #cursor-glow{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.06),transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%)}
 
-    /* ─── Sections ─── */
-    section{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:6rem 2rem}
-    .section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:3px;color:#7b2ffc;margin-bottom:.75rem;font-weight:600}
-    .section-title{font-size:2.5rem;font-weight:700;margin-bottom:3rem;background:linear-gradient(135deg,#e8e0f0,#a89bc0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    /* ─── Nav ─── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(7,7,14,.75);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.04)}
+    nav .logo{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:-.02em;background:linear-gradient(135deg,#a78bfa,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    nav ul{display:flex;gap:2rem;list-style:none}
+    nav ul li a{color:#7b7a8a;text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.01em;transition:color .3s;position:relative}
+    nav ul li a:hover{color:#e2e0eb}
+    .nav-indicator{position:absolute;bottom:-4px;left:0;height:1.5px;background:linear-gradient(90deg,#7c3aed,#c026d3);transition:left .35s cubic-bezier(.22,1,.36,1),width .35s cubic-bezier(.22,1,.36,1)}
 
     /* ─── Hero ─── */
-    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:5rem;position:relative;z-index:1}
-    #hero .greeting{font-size:1.1rem;color:#7b2ffc;margin-bottom:.5rem;font-weight:500}
-    #hero h1{font-size:4.5rem;font-weight:800;line-height:1.1;margin-bottom:.75rem;background:linear-gradient(135deg,#c084fc 0%,#818cf8 30%,#38bdf8 60%,#f472b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientShift 6s ease infinite}
-    @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-    #hero .subtitle{font-size:1.25rem;color:#a89bc0;margin-bottom:1.5rem;min-height:1.8em}
-    #hero .subtitle .cursor{display:inline-block;width:2px;height:1.2em;background:#7b2ffc;margin-left:4px;vertical-align:text-bottom;animation:blink .8s step-end infinite}
-    @keyframes blink{50%{opacity:0}}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2.5rem}
-    .hero-badge{padding:.35rem .9rem;border-radius:9999px;font-size:.8rem;font-weight:500;border:1px solid rgba(123,47,252,.3);background:rgba(123,47,252,.08);color:#c084fc}
-    .social-links{display:flex;gap:1rem;flex-wrap:wrap}
-    .social-link{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border-radius:9999px;font-size:.875rem;font-weight:500;text-decoration:none;transition:all .3s;border:1px solid rgba(123,47,252,.25);color:#c084fc;background:rgba(123,47,252,.06)}
-    .social-link:hover{border-color:#7b2ffc;background:rgba(123,47,252,.15);transform:translateY(-2px);box-shadow:0 8px 25px rgba(123,47,252,.2)}
-    .social-link.primary{background:linear-gradient(135deg,#7b2ffc,#5b21b6);color:white;border:none}
-    .social-link.primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(123,47,252,.35)}
+    #hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 2.5rem 4rem;max-width:1200px;margin:0 auto}
+    #hero .tag{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;margin-bottom:1.25rem}
+    #hero h1{font-size:clamp(3rem,7vw,6.5rem);font-weight:800;line-height:1.02;letter-spacing:-.04em;margin-bottom:.5rem}
+    #hero h1 .line1{display:block;color:#e2e0eb}
+    #hero h1 .line2{display:block;background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#f472b6 70%,#fbbf24 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientMove 5s ease infinite}
+    @keyframes gradientMove{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    #hero .subtitle-wrap{margin-top:1.5rem;margin-bottom:2rem}
+    #hero .subtitle{font-size:1.1rem;color:#8b8a9a;font-weight:400;line-height:1.7;max-width:540px}
+    #hero .subtitle em{font-style:normal;color:#c4b5fd}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem}
+    .hero-chip{padding:.3rem .75rem;border-radius:6px;font-size:.75rem;font-weight:500;border:1px solid rgba(139,92,246,.12);background:rgba(139,92,246,.06);color:#a78bfa;font-family:'JetBrains Mono',monospace;letter-spacing:-.01em}
+    .hero-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;border-radius:8px;font-size:.85rem;font-weight:500;text-decoration:none;transition:all .25s;font-family:'Inter',sans-serif}
+    .btn-primary{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;box-shadow:0 4px 20px rgba(124,58,237,.25)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.35)}
+    .btn-outline{border:1px solid rgba(255,255,255,.08);color:#a5a3b2;background:rgba(255,255,255,.02)}
+    .btn-outline:hover{border-color:rgba(139,92,246,.3);color:#e2e0eb;background:rgba(139,92,246,.06)}
 
-    /* ─── Cards (Glassmorphism) ─── */
-    .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:2rem;margin-bottom:1.5rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all .4s;position:relative;overflow:hidden}
-    .card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(123,47,252,.04),transparent);transition:left .6s;pointer-events:none}
-    .card:hover::before{left:100%}
-    .card:hover{border-color:rgba(123,47,252,.2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
-    .card .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem}
-    .card h3{font-size:1.2rem;font-weight:600;color:#e8e0f0}
-    .card .date{font-size:.8rem;color:#7b2ffc;font-weight:500;padding:.2rem .6rem;border-radius:9999px;background:rgba(123,47,252,.1);white-space:nowrap}
-    .card .location{font-size:.85rem;color:#818cf8;margin-bottom:.75rem}
-    .card p,.card li{font-size:.95rem;color:#a89bc0;line-height:1.7}
-    .card ul{list-style:none;padding:0}
-    .card ul li{padding:.35rem 0;padding-left:1.2rem;position:relative}
-    .card ul li::before{content:'✦';position:absolute;left:0;color:#7b2ffc;font-size:.7rem;top:.55rem}
+    /* ─── Scroll indicator ─── */
+    .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:#5a5a6a;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase}
+    .scroll-hint .mouse{width:22px;height:34px;border:1.5px solid #3a3a4a;border-radius:12px;position:relative}
+    .scroll-hint .mouse::after{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:8px;background:#7c3aed;border-radius:3px;animation:scrollWheel 1.8s infinite}
+    @keyframes scrollWheel{0%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(12px)}}
+
+    /* ─── Section common ─── */
+    section{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:7rem 2.5rem}
+    .sec-label{font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#7c3aed;margin-bottom:.75rem}
+    .sec-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-.03em;color:#e2e0eb;margin-bottom:.75rem;line-height:1.15}
+    .sec-desc{color:#7b7a8a;font-size:.95rem;max-width:520px;margin-bottom:3.5rem;line-height:1.7}
+
+    /* ─── About ─── */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2.5rem}
+    .about-stat{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:1.75rem}
+    .about-stat .num{font-size:2.2rem;font-weight:700;font-family:'Space Grotesk',sans-serif;background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.03em}
+    .about-stat .lbl{font-size:.82rem;color:#7b7a8a;margin-top:.25rem}
+    .about-stat p{color:#a5a3b2;font-size:.9rem;line-height:1.65;margin-top:.5rem}
+    .about-bio{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:1.75rem;grid-column:1/-1}
+    .about-bio p{color:#a5a3b2;font-size:.95rem;line-height:1.8}
+
+    /* ─── Timeline (Experience) ─── */
+    .timeline{position:relative;padding-left:2rem}
+    .timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,rgba(139,92,246,.3),rgba(236,72,153,.1))}
+    .tl-item{position:relative;padding-bottom:2.5rem}
+    .tl-item:last-child{padding-bottom:0}
+    .tl-item::before{content:'';position:absolute;left:-2rem;top:6px;width:9px;height:9px;border-radius:50%;background:#7c3aed;border:2px solid #07070e;z-index:2}
+    .tl-item .tl-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:.35rem}
+    .tl-item h3{font-size:1.05rem;font-weight:600;color:#e2e0eb}
+    .tl-item .tl-org{color:#a78bfa;font-size:.85rem;font-weight:500}
+    .tl-item .tl-date{font-size:.75rem;color:#6b6a7a;font-family:'JetBrains Mono',monospace;padding:.15rem .55rem;border-radius:4px;background:rgba(255,255,255,.03)}
+    .tl-item .tl-loc{color:#6b6a7a;font-size:.82rem;margin-bottom:.75rem}
+    .tl-item ul{list-style:none}
+    .tl-item ul li{position:relative;padding:.3rem 0 .3rem 1.1rem;color:#8b8a9a;font-size:.88rem;line-height:1.6}
+    .tl-item ul li::before{content:'→';position:absolute;left:0;color:#7c3aed;font-size:.75rem}
+
+    /* ─── Projects grid ─── */
+    .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+    .proj-card{background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:1.5rem;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden}
+    .proj-card::after{content:'';position:absolute;inset:0;border-radius:12px;background:linear-gradient(135deg,rgba(139,92,246,.04),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+    .proj-card:hover{transform:translateY(-4px);border-color:rgba(139,92,246,.18);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .proj-card:hover::after{opacity:1}
+    .proj-card .p-icon{font-size:1.5rem;margin-bottom:.65rem;display:block}
+    .proj-card h3{font-size:1.05rem;font-weight:600;color:#e2e0eb;margin-bottom:.4rem}
+    .proj-card p{font-size:.85rem;color:#7b7a8a;line-height:1.6;margin-bottom:.75rem}
+    .proj-card .p-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+    .proj-card .p-tag{font-size:.68rem;padding:.15rem .5rem;border-radius:4px;background:rgba(139,92,246,.06);color:#a78bfa;font-family:'JetBrains Mono',monospace}
+    .proj-card .p-hint{font-size:.7rem;color:#5a5a6a;margin-top:.6rem;display:flex;align-items:center;gap:.3rem}
 
     /* ─── Skills ─── */
-    .skills-grid{display:flex;flex-wrap:wrap;gap:.6rem}
-    .skill-tag{padding:.4rem .85rem;border-radius:9999px;font-size:.82rem;font-weight:500;border:1px solid rgba(123,47,252,.2);background:rgba(123,47,252,.06);color:#c084fc;transition:all .3s}
-    .skill-tag:hover{border-color:#7b2ffc;background:rgba(123,47,252,.15);transform:translateY(-2px);box-shadow:0 4px 15px rgba(123,47,252,.15)}
-    .skill-category{margin-bottom:2rem}
-    .skill-category h4{font-size:.85rem;text-transform:uppercase;letter-spacing:1.5px;color:#818cf8;margin-bottom:.75rem}
-
-    /* ─── Projects Grid ─── */
-    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
-    .project-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1.75rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all .4s;position:relative;overflow:hidden;cursor:default}
-    .project-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(transparent,rgba(123,47,252,.03),transparent 30%);animation:rotateGlow 8s linear infinite;opacity:0;transition:opacity .4s;pointer-events:none}
-    .project-card:hover::before{opacity:1}
-    @keyframes rotateGlow{to{transform:rotate(360deg)}}
-    .project-card:hover{border-color:rgba(123,47,252,.25);transform:translateY(-5px);box-shadow:0 16px 50px rgba(0,0,0,.35)}
-    .project-card .project-icon{font-size:1.8rem;margin-bottom:.75rem;display:block}
-    .project-card h3{font-size:1.1rem;font-weight:600;color:#e8e0f0;margin-bottom:.5rem}
-    .project-card p{font-size:.88rem;color:#a89bc0;line-height:1.6;margin-bottom:1rem}
-    .project-card .project-lang{font-size:.75rem;color:#7b2ffc;font-weight:500;display:inline-block}
+    .skills-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:2rem}
+    .skill-grp h4{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;margin-bottom:.85rem}
+    .skill-grp .tags{display:flex;flex-wrap:wrap;gap:.4rem}
+    .skill-grp .tag{font-size:.78rem;padding:.25rem .65rem;border-radius:5px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);color:#8b8a9a;transition:all .25s}
+    .skill-grp .tag:hover{background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.15);color:#c4b5fd;transform:translateY(-1px)}
 
     /* ─── Research ─── */
-    .research-card{border-left:2px solid;border-image:linear-gradient(180deg,#7b2ffc,#ff6b9d)1;padding:1.5rem;background:rgba(255,255,255,.02);border-radius:0 1rem 1rem 0;margin-bottom:1rem;transition:all .3s}
-    .research-card:hover{background:rgba(123,47,252,.06)}
-    .research-card p{color:#a89bc0;font-size:.95rem}
+    .research-item{padding:1.25rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .research-item:last-child{border-bottom:none}
+    .research-item p{font-size:.9rem;color:#8b8a9a;line-height:1.6}
+    .research-item strong{color:#c4b5fd;font-weight:500}
+
+    /* ─── Contact ─── */
+    #contact{text-align:center;padding-bottom:3rem}
+    #contact .big-email{font-size:1.3rem;font-weight:500;font-family:'Space Grotesk',sans-serif;background:linear-gradient(135deg,#a78bfa,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block;margin-bottom:1.5rem;text-decoration:none}
+    #contact .contact-links{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap}
 
     /* ─── Footer ─── */
-    footer{position:relative;z-index:1;text-align:center;padding:3rem 2rem;border-top:1px solid rgba(123,47,252,.1);color:#6b5b8a;font-size:.85rem}
-    footer .footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
-    footer .footer-links a{color:#a89bc0;text-decoration:none;transition:color .3s;font-size:.9rem}
-    footer .footer-links a:hover{color:#c084fc}
+    footer{position:relative;z-index:1;text-align:center;padding:2rem 2.5rem;border-top:1px solid rgba(255,255,255,.03);color:#5a5a6a;font-size:.8rem}
 
-    /* ─── Reveal Animations ─── */
-    .reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.22,1,.36,1)}
+    /* ─── Modal ─── */
+    .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(7,7,14,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .4s;padding:1.5rem}
+    .modal-overlay.active{opacity:1;visibility:visible}
+    .modal{background:rgba(18,18,30,.95);border:1px solid rgba(255,255,255,.06);border-radius:16px;max-width:780px;width:100%;max-height:85vh;overflow-y:auto;padding:2rem;position:relative;transform:scale(.92) translateY(20px);transition:all .4s cubic-bezier(.22,1,.36,1)}
+    .modal-overlay.active .modal{transform:scale(1) translateY(0)}
+    .modal-close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:8px;border:none;background:rgba(255,255,255,.04);color:#7b7a8a;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .25s}
+    .modal-close:hover{background:rgba(255,255,255,.08);color:#e2e0eb}
+    .modal h2{font-size:1.4rem;font-weight:700;color:#e2e0eb;margin-bottom:.35rem;letter-spacing:-.02em}
+    .modal .m-sub{color:#7b7a8a;font-size:.85rem;margin-bottom:1.25rem}
+    .modal .m-desc{color:#8b8a9a;font-size:.9rem;line-height:1.7;margin-bottom:1.5rem}
+    .modal .m-demo{background:#0a0a14;border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:1rem;min-height:240px;position:relative;overflow:hidden}
+    .modal .m-demo canvas{display:block;width:100%;height:240px}
+    .modal .m-gh{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:8px;background:rgba(139,92,246,.1);color:#a78bfa;text-decoration:none;font-size:.82rem;font-weight:500;margin-top:1rem;transition:all .25s}
+    .modal .m-gh:hover{background:rgba(139,92,246,.2);color:#c4b5fd}
+
+    /* ─── Reveal ─── */
+    .reveal{opacity:0;transform:translateY(24px);transition:all .65s cubic-bezier(.22,1,.36,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
-    .reveal-delay-1{transition-delay:.1s}
-    .reveal-delay-2{transition-delay:.2s}
-    .reveal-delay-3{transition-delay:.3s}
-
-    /* ─── Scroll Indicator ─── */
-    .scroll-indicator{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:#6b5b8a;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s infinite}
-    .scroll-indicator .line{width:1px;height:40px;background:linear-gradient(180deg,#7b2ffc,transparent)}
-    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+    .reveal-d1{transition-delay:.08s}
+    .reveal-d2{transition-delay:.16s}
+    .reveal-d3{transition-delay:.24s}
+    .reveal-d4{transition-delay:.32s}
 
     /* ─── Responsive ─── */
     @media(max-width:768px){
-      nav{padding:.75rem 1rem}
-      nav ul{gap:.75rem}
-      nav ul li a{font-size:.75rem}
-      #hero h1{font-size:2.8rem}
-      #hero .subtitle{font-size:1rem}
-      section{padding:4rem 1.25rem}
-      .section-title{font-size:1.8rem;margin-bottom:2rem}
-      .card{padding:1.25rem}
-      .projects-grid{grid-template-columns:1fr}
-      .hero-badges{gap:.5rem}
-      .hero-badges .hero-badge{font-size:.7rem;padding:.25rem .65rem}
+      nav{padding:1rem 1.25rem}
+      nav ul{display:none}
+      section{padding:5rem 1.25rem}
+      #hero{padding:6rem 1.25rem 3rem}
+      .about-grid{grid-template-columns:1fr}
+      .skills-wrap{grid-template-columns:1fr 1fr}
+      .proj-grid{grid-template-columns:1fr}
+      .tl-item .tl-head{flex-direction:column;align-items:flex-start}
     }
     @media(max-width:480px){
-      #hero h1{font-size:2.2rem}
-      nav ul{display:none}
-      .section-title{font-size:1.5rem}
+      .skills-wrap{grid-template-columns:1fr}
+      .hero-actions{flex-direction:column}
+      .btn{justify-content:center}
     }
   </style>
 </head>
 <body>
 
-  <!-- ─── Background Canvases ─── -->
-  <canvas id="stars-canvas"></canvas>
+  <canvas id="bg-canvas"></canvas>
   <div id="cursor-glow"></div>
 
-  <!-- ─── Navigation ─── -->
+  <!-- ─── Nav ─── -->
   <nav>
     <span class="logo">✦ ayush</span>
     <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about" data-sec="about">About</a></li>
+      <li><a href="#experience" data-sec="experience">Experience</a></li>
+      <li><a href="#projects" data-sec="projects">Projects</a></li>
+      <li><a href="#skills" data-sec="skills">Skills</a></li>
+      <li><a href="#research" data-sec="research">Research</a></li>
+      <li><a href="#contact" data-sec="contact">Contact</a></li>
     </ul>
   </nav>
 
   <!-- ─── Hero ─── -->
   <section id="hero">
-    <div class="greeting reveal">Hello, universe ✦</div>
-    <h1 class="reveal reveal-delay-1">Ayush Pandey</h1>
-    <div class="subtitle reveal reveal-delay-2">
-      <span id="typing-text"></span><span class="cursor"></span>
+    <div class="tag reveal">Undergrad Researcher & AI Engineer</div>
+    <h1>
+      <span class="line1 reveal reveal-d1">Ayush</span>
+      <span class="line2 reveal reveal-d2">Pandey</span>
+    </h1>
+    <div class="subtitle-wrap reveal reveal-d2">
+      <p class="subtitle">
+        Building at the intersection of <em>machine learning</em>, <em>quantum physics</em>, and <em>systems programming</em>. 
+        Currently researching muon spin relaxation with PINNs, engineering RAG pipelines, and building neural frameworks in Rust.
+      </p>
     </div>
-    <div class="hero-badges reveal reveal-delay-2">
-      <span class="hero-badge">ML & AI Research</span>
-      <span class="hero-badge">Quantum Computing</span>
-      <span class="hero-badge">Rust Systems</span>
-      <span class="hero-badge">Physics × ML</span>
+    <div class="hero-chips reveal reveal-d3">
+      <span class="hero-chip">Python</span>
+      <span class="hero-chip">PyTorch</span>
+      <span class="hero-chip">Rust</span>
+      <span class="hero-chip">LLM Inference</span>
+      <span class="hero-chip">PINNs</span>
+      <span class="hero-chip">Probabilistic Computing</span>
     </div>
-    <div class="social-links reveal reveal-delay-3">
-      <a href="https://github.com/TheOrganic-code" target="_blank" class="social-link">🐙 GitHub</a>
-      <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank" class="social-link">💼 LinkedIn</a>
-      <a href="https://sites.google.com/rgipt.ac.in/magneism-lab/home" target="_blank" class="social-link">🔬 QM Lab</a>
-      <a href="https://digitwin.ai/" target="_blank" class="social-link">🤖 Digitwin AI</a>
-      <a href="mailto:grunchie1801@gmail.com" class="social-link primary">✉️ Contact Me</a>
+    <div class="hero-actions reveal reveal-d3">
+      <a href="#projects" class="btn btn-primary">See my work →</a>
+      <a href="https://github.com/TheOrganic-code" target="_blank" class="btn btn-outline">🐙 GitHub</a>
+      <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank" class="btn btn-outline">💼 LinkedIn</a>
     </div>
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="line"></div>
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="mouse"></div>
     </div>
   </section>
 
-  <!-- ─── About / Education ─── -->
+  <!-- ─── About ─── -->
   <section id="about">
-    <div class="section-label reveal">About</div>
-    <h2 class="section-title reveal">Education & Journey</h2>
-    <div class="card reveal">
-      <div class="card-header">
-        <h3>Rajiv Gandhi Institute of Petroleum Technology</h3>
-        <span class="date">2025 – 2029</span>
+    <div class="sec-label reveal">About</div>
+    <h2 class="sec-title reveal reveal-d1">Quick facts</h2>
+    <p class="sec-desc reveal reveal-d1">Currently pursuing B.Tech in Mathematics & Computing at RGIPT, with a focus on applied ML, scientific computing, and systems engineering.</p>
+    <div class="about-grid">
+      <div class="about-stat reveal">
+        <div class="num">8.68</div>
+        <div class="lbl">Cumulative CPI</div>
+        <p>Rajiv Gandhi Institute of Petroleum Technology · B.Tech Math & Computing</p>
       </div>
-      <div class="location">Jais, India</div>
-      <p><strong>B.Tech in Mathematics and Computing</strong> — Cumulative CPI: <strong>8.68</strong></p>
-      <p style="margin-top:.5rem;font-size:.88rem;color:#818cf8">
-        Coursework: Data Structures & Algorithms · Linear Algebra · Differential Equations · Modern Physics · MATLAB
-      </p>
-    </div>
-    <div class="card reveal reveal-delay-1">
-      <p style="font-size:.95rem;color:#a89bc0">
-        I work at the intersection of <strong style="color:#c084fc">machine learning</strong>, 
-        <strong style="color:#818cf8">quantum physics</strong>, and <strong style="color:#f472b6">systems programming</strong>.
-        From simulating probabilistic computing with p-bits to building neural network frameworks from scratch in Rust,
-        I'm driven by the idea that the most interesting discoveries happen at the boundaries between disciplines.
-      </p>
+      <div class="about-stat reveal reveal-d1">
+        <div class="num">2×</div>
+        <div class="lbl">Research Papers</div>
+        <p>Co-author on PRB submission · First author in drafting — both on muon spin relaxation</p>
+      </div>
+      <div class="about-bio reveal reveal-d2">
+        <p>I work at the intersection of <strong style="color:#c4b5fd">machine learning</strong>, <strong style="color:#8b8a9a">quantum physics</strong>, and <strong style="color:#c4b5fd">systems programming</strong>. From simulating probabilistic computing with p-bits to building neural network frameworks from scratch in Rust, I'm driven by the idea that the most interesting discoveries happen at the boundaries between disciplines. I spend my days fine-tuning LLMs for enterprise workflows at Digitwin Technology, researching muon spin relaxation with physics-informed neural nets at the Quantum Materials Lab, and building low-bit ML libraries in my free time.</p>
+      </div>
     </div>
   </section>
 
   <!-- ─── Experience ─── -->
   <section id="experience">
-    <div class="section-label reveal">Experience</div>
-    <h2 class="section-title reveal">Where I've Worked</h2>
-
-    <div class="card reveal">
-      <div class="card-header">
-        <div>
-          <h3>Undergraduate Researcher</h3>
-          <p style="font-size:.85rem;color:#818cf8;margin-top:.2rem">Quantum Materials Lab, RGIPT</p>
+    <div class="sec-label reveal">Experience</div>
+    <h2 class="sec-title reveal reveal-d1">Where I've worked</h2>
+    <p class="sec-desc reveal reveal-d1">Research and engineering roles spanning quantum materials, enterprise AI, and everything in between.</p>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-head">
+          <div>
+            <h3>Undergraduate Researcher</h3>
+            <div class="tl-org">Quantum Materials Lab, RGIPT</div>
+          </div>
+          <span class="tl-date">Jan – Jun 2026</span>
         </div>
-        <span class="date">Jan – Jun 2026</span>
+        <div class="tl-loc">Jais, India</div>
+        <ul>
+          <li>Research on Muon Spin Relaxation for finding dipolar and local fields in crystal structures using PINNs and PhyCNNs</li>
+          <li>Utilizing PyMatGen and PyTorch for complex materials calculations and computational modeling</li>
+          <li>Leveraging NumPy, SciPy, Pandas to analyze physical datasets and optimize material property predictions</li>
+        </ul>
       </div>
-      <div class="location">Jais, India</div>
-      <ul>
-        <li>Research on Muon Spin Relaxation for finding dipolar and local fields in crystal structures using PINNs and PhyCNNs.</li>
-        <li>Utilizing PyMatGen and PyTorch for complex materials-related calculations and computational modeling.</li>
-        <li>Leveraging scientific computing libraries (NumPy, SciPy, Pandas) to analyze physical datasets and optimize material property predictions.</li>
-      </ul>
-    </div>
-
-    <div class="card reveal reveal-delay-1">
-      <div class="card-header">
-        <div>
-          <h3>AI Engineer Intern</h3>
-          <p style="font-size:.85rem;color:#818cf8;margin-top:.2rem">Digitwin Technology</p>
+      <div class="tl-item reveal reveal-d1">
+        <div class="tl-head">
+          <div>
+            <h3>AI Engineer Intern</h3>
+            <div class="tl-org">Digitwin Technology</div>
+          </div>
+          <span class="tl-date">May 2026 – Present</span>
         </div>
-        <span class="date">May 2026 – Present</span>
+        <div class="tl-loc">Chennai, India</div>
+        <ul>
+          <li>Fine-tuning LLMs on domain-specific industrial datasets to improve performance in specialized enterprise workflows</li>
+          <li>Building and optimizing RAG pipelines for industrial use cases, enabling accurate retrieval over proprietary knowledge bases</li>
+          <li>Translating research-grade techniques into production-ready systems at the intersection of applied AI and industry</li>
+        </ul>
       </div>
-      <div class="location">Chennai, India</div>
-      <ul>
-        <li>Fine-tuning LLMs on domain-specific industrial datasets to improve task performance in specialized enterprise workflows.</li>
-        <li>Building and optimizing RAG pipelines for industrial use cases, enabling accurate, grounded information retrieval over proprietary knowledge bases.</li>
-        <li>Working at the intersection of applied AI and industry, translating research-grade techniques into production-ready systems.</li>
-      </ul>
     </div>
   </section>
 
   <!-- ─── Projects ─── -->
   <section id="projects">
-    <div class="section-label reveal">Projects</div>
-    <h2 class="section-title reveal">Things I've Built</h2>
-    <div class="projects-grid">
+    <div class="sec-label reveal">Projects</div>
+    <h2 class="sec-title reveal reveal-d1">Things I've built</h2>
+    <p class="sec-desc reveal reveal-d1">Click any project to see a live simulation of what it does.</p>
+    <div class="proj-grid">
 
-      <div class="project-card reveal">
-        <span class="project-icon">🦀</span>
+      <div class="proj-card reveal" data-proj="neurarust">
+        <span class="p-icon">🦀</span>
         <h3>NeuraRust</h3>
-        <p>A neural network framework built from scratch in Rust — memory-safe, performant, with zero-cost abstractions and zero external ML dependencies.</p>
-        <span class="project-lang">Rust · Tensors · AutoDiff</span>
+        <p>Neural network framework from scratch in Rust — memory-safe, performant, zero external ML dependencies.</p>
+        <div class="p-tags">
+          <span class="p-tag">Rust</span>
+          <span class="p-tag">AutoDiff</span>
+          <span class="p-tag">Tensors</span>
+        </div>
+        <div class="p-hint">▶ click to see demo</div>
       </div>
 
-      <div class="project-card reveal reveal-delay-1">
-        <span class="project-icon">⚛️</span>
+      <div class="proj-card reveal reveal-d1" data-proj="pbit">
+        <span class="p-icon">⚛️</span>
         <h3>P-bit Simulator</h3>
-        <p>Probabilistic computing simulator grounded in Ising spin systems and Boltzmann machines with tunable thermal noise. Verified via energy minimization on MAX-CUT benchmarks.</p>
-        <span class="project-lang">Python · PyTorch · Ising Models</span>
+        <p>Probabilistic computing simulator grounded in Ising spin systems, verified on MAX-CUT benchmarks.</p>
+        <div class="p-tags">
+          <span class="p-tag">Python</span>
+          <span class="p-tag">PyTorch</span>
+          <span class="p-tag">Ising</span>
+        </div>
+        <div class="p-hint">▶ click to see demo</div>
       </div>
 
-      <div class="project-card reveal reveal-delay-2">
-        <span class="project-icon">🧠</span>
+      <div class="proj-card reveal reveal-d2" data-proj="brain">
+        <span class="p-icon">🧠</span>
         <h3>Brain Tumor Classifier</h3>
-        <p>Deep learning project using PyTorch — CNN-based classifier for medical imaging with Grad-CAM visualizations for interpretability.</p>
-        <span class="project-lang">PyTorch · CNNs · Grad-CAM</span>
+        <p>CNN-based classifier with Grad-CAM visualizations for medical imaging interpretability.</p>
+        <div class="p-tags">
+          <span class="p-tag">PyTorch</span>
+          <span class="p-tag">CNNs</span>
+          <span class="p-tag">Grad-CAM</span>
+        </div>
+        <div class="p-hint">▶ click to see demo</div>
       </div>
 
-      <div class="project-card reveal">
-        <span class="project-icon">🌌</span>
+      <div class="proj-card reveal" data-proj="montecarlo">
+        <span class="p-icon">🌌</span>
         <h3>Golden Monte Carlo</h3>
-        <p>Monte-Carlo estimator for the golden ratio through stochastic Fibonacci sequence dynamics — a blend of math, randomness, and computation.</p>
-        <span class="project-lang">Python · Monte Carlo · Stochastic</span>
+        <p>Monte-Carlo estimator for the golden ratio through stochastic Fibonacci sequence dynamics.</p>
+        <div class="p-tags">
+          <span class="p-tag">Python</span>
+          <span class="p-tag">Monte Carlo</span>
+          <span class="p-tag">Math</span>
+        </div>
+        <div class="p-hint">▶ click to see demo</div>
       </div>
 
-      <div class="project-card reveal reveal-delay-1">
-        <span class="project-icon">🔮</span>
+      <div class="proj-card reveal reveal-d1" data-proj="unobit">
+        <span class="p-icon">🔮</span>
         <h3>UnoBit</h3>
-        <p>A low-bit machine learning library exploring quantization-aware training and efficient inference at reduced numerical precision.</p>
-        <span class="project-lang">Python · Quantization · ML</span>
+        <p>Low-bit ML library exploring quantization-aware training and efficient inference at reduced precision.</p>
+        <div class="p-tags">
+          <span class="p-tag">Python</span>
+          <span class="p-tag">Quantization</span>
+          <span class="p-tag">ML</span>
+        </div>
+        <div class="p-hint">▶ click to see demo</div>
       </div>
 
-      <div class="project-card reveal reveal-delay-2">
-        <span class="project-icon">🪐</span>
+      <div class="proj-card reveal reveal-d2" data-proj="habitability">
+        <span class="p-icon">🪐</span>
         <h3>Habitability Predictor</h3>
-        <p>ML model using Random Forest (scikit-learn) to predict exoplanet habitability from planetary and stellar features.</p>
-        <span class="project-lang">Python · scikit-learn · Pandas</span>
+        <p>Random Forest model predicting exoplanet habitability from planetary and stellar features.</p>
+        <div class="p-tags">
+          <span class="p-tag">Python</span>
+          <span class="p-tag">scikit-learn</span>
+          <span class="p-tag">Pandas</span>
+        </div>
+        <div class="p-hint">▶ click to see demo</div>
       </div>
 
     </div>
@@ -287,270 +361,645 @@
 
   <!-- ─── Skills ─── -->
   <section id="skills">
-    <div class="section-label reveal">Skills</div>
-    <h2 class="section-title reveal">Tech & Tools</h2>
-
-    <div class="skill-category reveal">
-      <h4>Languages</h4>
-      <div class="skills-grid">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">C</span>
-        <span class="skill-tag">C++</span>
-        <span class="skill-tag">Rust</span>
-      </div>
-    </div>
-
-    <div class="skill-category reveal reveal-delay-1">
-      <h4>ML / Deep Learning</h4>
-      <div class="skills-grid">
-        <span class="skill-tag">PyTorch</span>
-        <span class="skill-tag">scikit-learn</span>
-        <span class="skill-tag">CNNs</span>
-        <span class="skill-tag">Energy-Based Models</span>
-        <span class="skill-tag">Grad-CAM</span>
-        <span class="skill-tag">LoRA / QLoRA</span>
-      </div>
-    </div>
-
-    <div class="skill-category reveal reveal-delay-2">
-      <h4>LLM Inference & Optimization</h4>
-      <div class="skills-grid">
-        <span class="skill-tag">KV Cache</span>
-        <span class="skill-tag">FlashAttention</span>
-        <span class="skill-tag">Speculative Decoding</span>
-        <span class="skill-tag">GPTQ</span>
-        <span class="skill-tag">AWQ</span>
-        <span class="skill-tag">BitsAndBytes</span>
-        <span class="skill-tag">vLLM</span>
-        <span class="skill-tag">torch.compile</span>
-      </div>
-    </div>
-
-    <div class="skill-category reveal">
-      <h4>Data & Scientific Computing</h4>
-      <div class="skills-grid">
-        <span class="skill-tag">NumPy</span>
-        <span class="skill-tag">Pandas</span>
-        <span class="skill-tag">PyMatGen</span>
-        <span class="skill-tag">Matplotlib</span>
-        <span class="skill-tag">Seaborn</span>
-        <span class="skill-tag">SciPy</span>
-        <span class="skill-tag">MATLAB</span>
-      </div>
-    </div>
-
-    <div class="skill-category reveal reveal-delay-1">
-      <h4>Systems & Tools</h4>
-      <div class="skills-grid">
-        <span class="skill-tag">Git</span>
-        <span class="skill-tag">Linux</span>
-        <span class="skill-tag">WSL2</span>
-        <span class="skill-tag">Rust (Systems)</span>
-      </div>
+    <div class="sec-label reveal">Skills</div>
+    <h2 class="sec-title reveal reveal-d1">Tech & tools</h2>
+    <p class="sec-desc reveal reveal-d1">Languages, frameworks, and tools I work with regularly.</p>
+    <div class="skills-wrap">
+      <div class="skill-grp reveal"><h4>Languages</h4><div class="tags"><span class="tag">Python</span><span class="tag">C</span><span class="tag">C++</span><span class="tag">Rust</span></div></div>
+      <div class="skill-grp reveal reveal-d1"><h4>ML / Deep Learning</h4><div class="tags"><span class="tag">PyTorch</span><span class="tag">scikit-learn</span><span class="tag">CNNs</span><span class="tag">Energy-Based Models</span><span class="tag">Grad-CAM</span><span class="tag">LoRA / QLoRA</span></div></div>
+      <div class="skill-grp reveal reveal-d2"><h4>LLM Inference</h4><div class="tags"><span class="tag">KV Cache</span><span class="tag">FlashAttention</span><span class="tag">Speculative Decoding</span><span class="tag">GPTQ</span><span class="tag">AWQ</span><span class="tag">BitsAndBytes</span><span class="tag">vLLM</span><span class="tag">torch.compile</span></div></div>
+      <div class="skill-grp reveal"><h4>Scientific Computing</h4><div class="tags"><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">PyMatGen</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">SciPy</span><span class="tag">MATLAB</span></div></div>
+      <div class="skill-grp reveal reveal-d1"><h4>Systems & Tools</h4><div class="tags"><span class="tag">Git</span><span class="tag">Linux</span><span class="tag">WSL2</span><span class="tag">Rust (Systems)</span></div></div>
     </div>
   </section>
 
   <!-- ─── Research ─── -->
   <section id="research">
-    <div class="section-label reveal">Research</div>
-    <h2 class="section-title reveal">Publications & Interests</h2>
-
-    <div class="research-card reveal">
-      <p><strong style="color:#e8e0f0">Paper on Muon Spin Relaxation</strong> — submitted to <strong style="color:#818cf8">Physical Review B (PRB)</strong> as co-author.</p>
-    </div>
-
-    <div class="research-card reveal reveal-delay-1">
-      <p><strong style="color:#e8e0f0">Paper on Muon Spin Relaxation & ML</strong> — to be drafted soon as <strong style="color:#818cf8">first author</strong>.</p>
-    </div>
-
-    <div class="research-card reveal reveal-delay-2">
-      <p><strong style="color:#e8e0f0">Research Interests:</strong> Probabilistic Computing · Quantum Computing · ML Optimization · AI for Materials Science · Physics-Informed Neural Networks</p>
-    </div>
+    <div class="sec-label reveal">Research</div>
+    <h2 class="sec-title reveal reveal-d1">Publications & interests</h2>
+    <p class="sec-desc reveal reveal-d1">Current and upcoming work in computational physics and ML.</p>
+    <div class="research-item reveal"><p><strong>Muon Spin Relaxation (PRB)</strong> — Paper submitted to <strong>Physical Review B</strong> as co-author. Investigates dipolar and local fields in crystal structures using muon spectroscopy.</p></div>
+    <div class="research-item reveal reveal-d1"><p><strong>Muon Spin Relaxation & ML (First author)</strong> — Paper to be drafted. Explores machine learning approaches for analyzing muon spin relaxation data, combining PINNs with experimental physics.</p></div>
+    <div class="research-item reveal reveal-d2"><p><strong>Research interests:</strong> Probabilistic computing · Quantum computing · ML optimization · AI for materials science · Physics-informed neural networks · Low-bit inference</p></div>
   </section>
 
   <!-- ─── Contact ─── -->
   <section id="contact">
-    <div class="section-label reveal">Connect</div>
-    <h2 class="section-title reveal">Let's Talk</h2>
-    <div style="text-align:center;max-width:500px;margin:0 auto">
-      <p class="reveal" style="color:#a89bc0;margin-bottom:2rem;font-size:1.05rem">
-        Whether it's research, open-source, or just chatting about quantum ML — I'm always open to interesting conversations.
-      </p>
-      <div class="social-links reveal reveal-delay-1" style="justify-content:center;margin-bottom:1.5rem">
-        <a href="mailto:grunchie1801@gmail.com" class="social-link primary">✉️ grunchie1801@gmail.com</a>
-      </div>
-      <div class="social-links reveal reveal-delay-2" style="justify-content:center">
-        <a href="https://github.com/TheOrganic-code" target="_blank" class="social-link">🐙 GitHub</a>
-        <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank" class="social-link">💼 LinkedIn</a>
-        <a href="https://sites.google.com/rgipt.ac.in/magneism-lab/home" target="_blank" class="social-link">🔬 QM Lab</a>
-        <a href="https://digitwin.ai/" target="_blank" class="social-link">🤖 Digitwin AI</a>
-      </div>
+    <div class="sec-label reveal">Connect</div>
+    <h2 class="sec-title reveal reveal-d1">Let's talk</h2>
+    <p class="sec-desc" style="margin:0 auto 2rem;text-align:center">Whether it's research, open-source, or quantum ML — always open to interesting conversations.</p>
+    <a href="mailto:grunchie1801@gmail.com" class="big-email reveal">grunchie1801@gmail.com</a>
+    <div class="contact-links reveal reveal-d1">
+      <a href="https://github.com/TheOrganic-code" target="_blank" class="btn btn-outline">🐙 GitHub</a>
+      <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank" class="btn btn-outline">💼 LinkedIn</a>
+      <a href="https://sites.google.com/rgipt.ac.in/magneism-lab/home" target="_blank" class="btn btn-outline">🔬 QM Lab</a>
+      <a href="https://digitwin.ai/" target="_blank" class="btn btn-outline">🤖 Digitwin AI</a>
     </div>
   </section>
 
   <!-- ─── Footer ─── -->
   <footer>
-    <div class="footer-links">
-      <a href="https://github.com/TheOrganic-code" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/ayushpandey1801/" target="_blank">LinkedIn</a>
-      <a href="mailto:grunchie1801@gmail.com">Email</a>
-    </div>
-    <p>✦ Crafted with code, curiosity & cosmic energy</p>
-    <p style="margin-top:.25rem">&copy; 2026 Ayush Pandey</p>
+    <p>✦ Designed & built with intent · 2026</p>
   </footer>
 
+  <!-- ─── Modal ─── -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <h2 id="m-title"></h2>
+      <div class="m-sub" id="m-sub"></div>
+      <div class="m-desc" id="m-desc"></div>
+      <div class="m-demo" id="m-demo"><canvas id="demo-canvas"></canvas></div>
+      <a href="#" target="_blank" class="m-gh" id="m-gh">🐙 View on GitHub →</a>
+    </div>
+  </div>
+
   <script>
-    // ─── Stars Animation ───
-    const canvas = document.getElementById('stars-canvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let shootingStars = [];
-    let mouseX = 0, mouseY = 0;
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    class Star {
-      constructor() { this.reset() }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + .3;
-        this.alpha = Math.random() * .7 + .3;
-        this.twinkleSpeed = Math.random() * .01 + .005;
-        this.twinklePhase = Math.random() * Math.PI * 2;
-        this.baseAlpha = this.alpha;
+    // ─── Data ───
+    const projects = {
+      neurarust: {
+        title: 'NeuraRust',
+        sub: 'Neural Network Framework · Rust',
+        desc: 'A neural network framework built entirely from scratch in Rust. Focuses on memory safety, performance, and zero-cost abstractions with zero external ML dependencies. Implements tensor operations, automatic differentiation, and a modular layer API targeting high-performance inference pipelines.',
+        gh: 'https://github.com/TheOrganic-code/neuraRust',
+        demo: 'neurarust'
+      },
+      pbit: {
+        title: 'P-bit Simulator',
+        sub: 'Probabilistic Computing · Python / PyTorch',
+        desc: 'A stochastic computing simulator grounded in Ising spin systems and Boltzmann machines with tunable thermal noise. Verified convergence via energy minimization on MAX-CUT benchmarks. Includes a reusable p-bit library with PyTorch-compatible APIs for hybrid deterministic-stochastic workflows.',
+        gh: 'https://github.com/TheOrganic-code/P-bit-Simulator',
+        demo: 'pbit'
+      },
+      brain: {
+        title: 'Brain Tumor Classifier',
+        sub: 'Deep Learning · PyTorch',
+        desc: 'A CNN-based deep learning classifier for brain tumor detection from medical imaging. Uses Grad-CAM visualization for model interpretability, highlighting the regions the model focuses on when making predictions.',
+        gh: 'https://github.com/TheOrganic-code/Brain-Tumor-Classifier',
+        demo: 'brain'
+      },
+      montecarlo: {
+        title: 'Golden Monte Carlo',
+        sub: 'Stochastic Methods · Python',
+        desc: 'A Monte-Carlo estimator for the golden ratio through stochastic Fibonacci sequence dynamics — a blend of mathematics, randomness, and computational simulation.',
+        gh: 'https://github.com/TheOrganic-code/Golden-Monte-Carlo',
+        demo: 'montecarlo'
+      },
+      unobit: {
+        title: 'UnoBit',
+        sub: 'Low-Bit ML Library · Python',
+        desc: 'A low-bit machine learning library exploring quantization-aware training and efficient inference at reduced numerical precision. Investigates trade-offs between model size, speed, and accuracy.',
+        gh: 'https://github.com/TheOrganic-code/UnoBit',
+        demo: 'unobit'
+      },
+      habitability: {
+        title: 'Habitability Predictor',
+        sub: 'ML · scikit-learn / Pandas',
+        desc: 'A Random Forest-based machine learning model that predicts exoplanet habitability from planetary and stellar features. Uses scikit-learn, NumPy, and Pandas for data processing and classification.',
+        gh: 'https://github.com/TheOrganic-code/Habitability-Predictor',
+        demo: 'habitability'
       }
-      update() {
-        this.twinklePhase += this.twinkleSpeed;
-        this.alpha = this.baseAlpha * (.5 + .5 * Math.sin(this.twinklePhase));
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 180, 255, ${this.alpha})`;
-        ctx.fill();
+    };
 
-        if (this.size > 1.2) {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(123, 47, 252, ${this.alpha * .08})`;
-          ctx.fill();
-        }
-      }
-    }
+    // ─── Modal ───
+    const modal = document.getElementById('modal');
+    const mClose = document.getElementById('modal-close');
+    const mTitle = document.getElementById('m-title');
+    const mSub = document.getElementById('m-sub');
+    const mDesc = document.getElementById('m-desc');
+    const mGh = document.getElementById('m-gh');
+    const demoCanvas = document.getElementById('demo-canvas');
+    let demoAnimId = null;
 
-    class ShootingStar {
-      constructor() {
-        this.reset();
-        this.active = false;
-      }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height * .3;
-        this.length = Math.random() * 120 + 60;
-        this.speed = Math.random() * 8 + 4;
-        this.angle = Math.PI / 4 + Math.random() * Math.PI / 6;
-        this.alpha = 1;
-        this.trail = [];
-      }
-      update() {
-        if (!this.active) return;
-        this.trail.push({ x: this.x, y: this.y });
-        if (this.trail.length > 20) this.trail.shift();
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
-        this.alpha -= .005;
-        if (this.alpha <= 0 || this.x > canvas.width + 100 || this.y > canvas.height + 100) {
-          this.active = false;
-          setTimeout(() => { this.reset(); this.active = true; }, Math.random() * 8000 + 2000);
-        }
-      }
-      draw() {
-        if (!this.active || this.trail.length < 2) return;
-        for (let i = 1; i < this.trail.length; i++) {
-          const t = i / this.trail.length;
-          ctx.beginPath();
-          ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
-          ctx.lineTo(this.trail[i].x, this.trail[i].y);
-          ctx.strokeStyle = `rgba(255, 200, 255, ${t * this.alpha * .6})`;
-          ctx.lineWidth = t * 2;
-          ctx.stroke();
-        }
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 220, 255, ${this.alpha})`;
-        ctx.fill();
-      }
-    }
-
-    for (let i = 0; i < 200; i++) stars.push(new Star());
-    for (let i = 0; i < 3; i++) {
-      const s = new ShootingStar();
-      s.active = true;
-      shootingStars.push(s);
-    }
-
-    function animateStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(s => { s.update(); s.draw() });
-      shootingStars.forEach(s => { s.update(); s.draw() });
-      requestAnimationFrame(animateStars);
-    }
-    animateStars();
-
-    // ─── Cursor Glow ───
-    const glow = document.getElementById('cursor-glow');
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      glow.style.left = mouseX + 'px';
-      glow.style.top = mouseY + 'px';
+    document.querySelectorAll('.proj-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.dataset.proj;
+        const p = projects[key];
+        if (!p) return;
+        mTitle.textContent = p.title;
+        mSub.textContent = p.sub;
+        mDesc.textContent = p.desc;
+        mGh.href = p.gh;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        startDemo(p.demo);
+      });
     });
 
-    // ─── Typing Effect ───
-    const texts = [
-      'Undergraduate Researcher @ Quantum Materials Lab',
-      'AI Engineering Intern @ Digitwin Technology',
-      'Building at the intersection of ML, Physics & Systems',
-      'Exploring probabilistic computing & quantum ML'
-    ];
-    let textIdx = 0, charIdx = 0, isDeleting = false;
-    const el = document.getElementById('typing-text');
-
-    function type() {
-      const current = texts[textIdx];
-      if (!isDeleting) {
-        el.textContent = current.substring(0, charIdx + 1);
-        charIdx++;
-        if (charIdx === current.length) { setTimeout(() => { isDeleting = true }, 1500); return }
-        setTimeout(type, 50 + Math.random() * 30);
-      } else {
-        el.textContent = current.substring(0, charIdx - 1);
-        charIdx--;
-        if (charIdx === 0) {
-          isDeleting = false;
-          textIdx = (textIdx + 1) % texts.length;
-          setTimeout(type, 300);
-          return;
-        }
-        setTimeout(type, 25 + Math.random() * 15);
-      }
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      if (demoAnimId) { cancelAnimationFrame(demoAnimId); demoAnimId = null; }
     }
-    setTimeout(type, 500);
+    mClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal() });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() });
 
-    // ─── Reveal on Scroll ───
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible') }
+    // ─── Demo: Resize canvas ───
+    function resizeDC() {
+      const rect = demoCanvas.parentElement.getBoundingClientRect();
+      demoCanvas.width = rect.width - 32;
+      demoCanvas.height = Math.max(240, rect.height - 32);
+    }
+
+    // ─── Demo: NeuraRust ───
+    function demoNeuraRust() {
+      resizeDC();
+      const ctx = demoCanvas.getContext('2d');
+      const W = demoCanvas.width, H = demoCanvas.height;
+      const layers = [4, 8, 8, 4];
+      const neurons = [];
+      const lx = [];
+      const spacingX = W / (layers.length + 1);
+      layers.forEach((n, li) => {
+        const x = spacingX * (li + 1);
+        lx.push(x);
+        const cols = [];
+        const spacingY = H / (n + 1);
+        for (let ni = 0; ni < n; ni++) {
+          cols.push({ x, y: spacingY * (ni + 1), activation: Math.random(), target: Math.random() });
+        }
+        neurons.push(cols);
       });
-    }, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
+      let epoch = 0;
+      const lossHistory = [];
+      function draw() {
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(0, 0, W, H);
+        // connections
+        for (let li = 0; li < neurons.length - 1; li++) {
+          for (const a of neurons[li]) {
+            for (const b of neurons[li + 1]) {
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = `rgba(139,92,246,${.1 + .15 * a.activation * b.activation})`;
+              ctx.lineWidth = .6;
+              ctx.stroke();
+            }
+          }
+        }
+        // neurons
+        for (const layer of neurons) {
+          for (const n of layer) {
+            n.activation += (n.target - n.activation) * .05;
+            if (Math.random() < .02) n.target = Math.random();
+            const r = 5 + n.activation * 4;
+            const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r + 4);
+            grad.addColorStop(0, `rgba(167,139,250,${.3 + .5 * n.activation})`);
+            grad.addColorStop(1, 'rgba(167,139,250,0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, r + 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(167,139,250,${.6 + .4 * n.activation})`;
+            ctx.fill();
+          }
+        }
+        // loss chart
+        epoch++;
+        const loss = .5 * Math.exp(-epoch / 40) + .05 * Math.random();
+        lossHistory.push(loss);
+        if (lossHistory.length > 80) lossHistory.shift();
+        const chartX = 20, chartY = H - 60, chartW = W - 40, chartH = 50;
+        ctx.fillStyle = 'rgba(255,255,255,.03)';
+        ctx.roundRect(chartX, chartY, chartW, chartH, 4);
+        ctx.fill();
+        if (lossHistory.length > 1) {
+          ctx.beginPath();
+          const maxLoss = 1;
+          lossHistory.forEach((v, i) => {
+            const x = chartX + (i / (lossHistory.length - 1)) * chartW;
+            const y = chartY + chartH - (v / maxLoss) * chartH;
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = '#a78bfa';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#5a5a6a';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.fillText(`epoch ${epoch}  loss ${loss.toFixed(4)}`, chartX + 4, chartY - 6);
+        ctx.fillText('training loss ↓', chartX + chartW - 70, chartY - 6);
+        demoAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
 
+    // ─── Demo: P-bit (Ising spins) ───
+    function demoPbit() {
+      resizeDC();
+      const ctx = demoCanvas.getContext('2d');
+      const W = demoCanvas.width, H = demoCanvas.height;
+      const cols = 16, rows = 10;
+      const size = Math.min((W - 40) / cols, (H - 70) / rows);
+      const ox = (W - cols * size) / 2, oy = (H - 70 - rows * size) / 2 + 10;
+      const spins = Array.from({length: cols * rows}, () => Math.random() > .5 ? 1 : -1);
+      let eHist = [];
+      const J = 1;
+      function energy() {
+        let e = 0;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const i = r * cols + c;
+            if (c < cols - 1) e -= J * spins[i] * spins[i + 1];
+            if (r < rows - 1) e -= J * spins[i] * spins[(r + 1) * cols + c];
+          }
+        }
+        return e;
+      }
+      let step = 0;
+      function draw() {
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(0, 0, W, H);
+        // spins
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const s = spins[r * cols + c];
+            const x = ox + c * size, y = oy + r * size;
+            const pad = 2;
+            ctx.fillStyle = s > 0 ? 'rgba(167,139,250,.45)' : 'rgba(251,191,36,.15)';
+            ctx.beginPath();
+            ctx.roundRect(x + pad, y + pad, size - pad * 2, size - pad * 2, 3);
+            ctx.fill();
+            if (s > 0) {
+              ctx.fillStyle = 'rgba(167,139,250,.7)';
+              ctx.font = `${size * .45}px sans-serif`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText('↑', x + size / 2, y + size / 2 + 1);
+            }
+          }
+        }
+        // Monte Carlo step
+        for (let i = 0; i < cols * rows; i++) {
+          const idx = Math.floor(Math.random() * spins.length);
+          const oldE = energy();
+          spins[idx] *= -1;
+          const newE = energy();
+          if (newE > oldE && Math.random() > Math.exp(-(newE - oldE) / .5)) {
+            spins[idx] *= -1;
+          }
+        }
+        step++;
+        const e = energy();
+        eHist.push(e);
+        if (eHist.length > 100) eHist.shift();
+        // energy chart
+        const chartX = 15, chartY = H - 52, chartW = W - 30, chartH = 42;
+        ctx.fillStyle = 'rgba(255,255,255,.02)';
+        ctx.beginPath();
+        ctx.roundRect(chartX, chartY, chartW, chartH, 4);
+        ctx.fill();
+        if (eHist.length > 1) {
+          ctx.beginPath();
+          const minE = Math.min(...eHist), maxE = Math.max(...eHist);
+          const range = Math.max(maxE - minE, 1);
+          eHist.forEach((v, i) => {
+            const x = chartX + (i / (eHist.length - 1)) * chartW;
+            const y = chartY + chartH - ((v - minE) / range) * chartH;
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#5a5a6a';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.fillText(`step ${step}  energy ${e.toFixed(0)}`, chartX + 4, chartY - 6);
+        ctx.fillText('energy ↓', chartX + chartW - 48, chartY - 6);
+        demoAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // ─── Demo: Brain Tumor (Grad-CAM) ───
+    function demoBrain() {
+      resizeDC();
+      const ctx = demoCanvas.getContext('2d');
+      const W = demoCanvas.width, H = demoCanvas.height;
+      let phase = 0;
+      function draw() {
+        phase += .008;
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(0, 0, W, H);
+        const cx = W / 2, cy = H / 2 - 10, r = Math.min(W, H) * .28;
+        // brain outline
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, r, r * 1.15, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(167,139,250,.15)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        // inner structure
+        ctx.beginPath();
+        ctx.ellipse(cx - r * .25, cy - r * .1, r * .35, r * .35, -.3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(167,139,250,.04)';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx + r * .2, cy + r * .1, r * .3, r * .25, .2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(167,139,250,.03)';
+        ctx.fill();
+        // heatmap overlay (tumor)
+        const tumorX = cx + r * .15, tumorY = cy - r * .15;
+        const tr = r * .18 + r * .04 * Math.sin(phase);
+        const grad = ctx.createRadialGradient(tumorX, tumorY, 0, tumorX, tumorY, tr);
+        grad.addColorStop(0, `rgba(239,68,68,${.5 + .2 * Math.sin(phase * 1.5)})`);
+        grad.addColorStop(.4, 'rgba(239,68,68,.15)');
+        grad.addColorStop(1, 'rgba(239,68,68,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(tumorX, tumorY, tr, 0, Math.PI * 2);
+        ctx.fill();
+        // heatmap glow
+        const grad2 = ctx.createRadialGradient(tumorX, tumorY, 0, tumorX, tumorY, tr * 2.5);
+        grad2.addColorStop(0, `rgba(251,191,36,${.08 + .05 * Math.sin(phase * 1.3)})`);
+        grad2.addColorStop(1, 'rgba(251,191,36,0)');
+        ctx.fillStyle = grad2;
+        ctx.beginPath();
+        ctx.arc(tumorX, tumorY, tr * 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        // labels
+        ctx.fillStyle = '#5a5a6a';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('Grad-CAM heatmap overlay', cx, H - 14);
+        ctx.fillText('tumor region', tumorX - tr * .3, tumorY - tr - 8);
+        ctx.fillStyle = '#ef4444';
+        ctx.font = '8px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('● high activation', cx + r * .6, cy - r + 14);
+        demoAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // ─── Demo: Golden Monte Carlo ───
+    function demoMonteCarlo() {
+      resizeDC();
+      const ctx = demoCanvas.getContext('2d');
+      const W = demoCanvas.width, H = demoCanvas.height;
+      const chartX = 15, chartY = 15, chartW = W - 30, chartH = H - 70;
+      const points = [];
+      let a = 1, b = 1, step = 0;
+      const phi = (1 + Math.sqrt(5)) / 2;
+      function draw() {
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(0, 0, W, H);
+        // chart bg
+        ctx.fillStyle = 'rgba(255,255,255,.02)';
+        ctx.beginPath();
+        ctx.roundRect(chartX, chartY, chartW, chartH, 6);
+        ctx.fill();
+        // φ reference line
+        const phiY = chartY + chartH - ((phi - 1) / (2 - 1)) * chartH;
+        ctx.beginPath();
+        ctx.moveTo(chartX, phiY);
+        ctx.lineTo(chartX + chartW, phiY);
+        ctx.strokeStyle = 'rgba(251,191,36,.2)';
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(251,191,36,.3)';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.fillText(`φ = ${phi.toFixed(5)}`, chartX + 4, phiY - 4);
+        // simulate
+        for (let i = 0; i < 5; i++) {
+          const next = a + b;
+          a = b; b = next;
+          const ratio = b / a;
+          step++;
+          points.push({ x: step, y: Math.min(ratio, 2) });
+        }
+        if (points.length > 200) points.splice(0, points.length - 200);
+        // scatter
+        if (points.length > 1) {
+          const minY = 1, maxY = 2;
+          points.forEach((p, i) => {
+            const x = chartX + (i / (Math.max(points.length - 1, 1))) * chartW;
+            const y = chartY + chartH - ((p.y - minY) / (maxY - minY)) * chartH;
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(167,139,250,${.3 + .4 * (i / points.length)})`;
+            ctx.fill();
+          });
+          // line
+          ctx.beginPath();
+          points.forEach((p, i) => {
+            const x = chartX + (i / (points.length - 1)) * chartW;
+            const y = chartY + chartH - ((p.y - minY) / (maxY - minY)) * chartH;
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = 'rgba(167,139,250,.5)';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#5a5a6a';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.fillText(`iter ${step}  ratio ${(b / a).toFixed(6)}`, chartX + 4, chartY + chartH + 16);
+        ctx.fillText('converging to φ', chartX + chartW - 78, chartY + chartH + 16);
+        demoAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // ─── Demo: UnoBit ───
+    function demoUnoBit() {
+      resizeDC();
+      const ctx = demoCanvas.getContext('2d');
+      const W = demoCanvas.width, H = demoCanvas.height;
+      const precisions = [
+        { label: 'FP32', bits: 32, color: '#a78bfa' },
+        { label: 'FP16', bits: 16, color: '#60a5fa' },
+        { label: 'INT8', bits: 8, color: '#f472b6' },
+        { label: 'INT4', bits: 4, color: '#fbbf24' }
+      ];
+      let phase = 0;
+      function draw() {
+        phase += .01;
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(0, 0, W, H);
+        const barW = Math.min(80, (W - 80) / precisions.length);
+        const totalW = precisions.length * barW + (precisions.length - 1) * 12;
+        const ox = (W - totalW) / 2, oy = 50;
+        const maxH = H - 120;
+        precisions.forEach((p, i) => {
+          const x = ox + i * (barW + 12);
+          const h = maxH * (p.bits / 32) * (.85 + .15 * Math.sin(phase + i));
+          const y = oy + maxH - h;
+          const grad = ctx.createLinearGradient(x, y, x, oy + maxH);
+          grad.addColorStop(0, p.color + '80');
+          grad.addColorStop(1, p.color + '20');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(x, y, barW, h, [4, 4, 0, 0]);
+          ctx.fill();
+          ctx.fillStyle = p.color;
+          ctx.font = 'bold 11px JetBrains Mono, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(p.bits + 'b', x + barW / 2, y - 8);
+          ctx.font = '9px JetBrains Mono, monospace';
+          ctx.fillStyle = '#7b7a8a';
+          ctx.fillText(p.label, x + barW / 2, oy + maxH + 16);
+          // accuracy indicator
+          const acc = (p.bits / 32) * 100;
+          ctx.fillStyle = '#5a5a6a';
+          ctx.font = '8px JetBrains Mono, monospace';
+          ctx.fillText(`${Math.round(acc)}%`, x + barW / 2, oy + maxH + 30);
+        });
+        ctx.fillStyle = '#5a5a6a';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('precision vs efficiency trade-off', W / 2, H - 10);
+        demoAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // ─── Demo: Habitability ───
+    function demoHabitability() {
+      resizeDC();
+      const ctx = demoCanvas.getContext('2d');
+      const W = demoCanvas.width, H = demoCanvas.height;
+      const planets = [];
+      for (let i = 0; i < 20; i++) {
+        planets.push({
+          x: Math.random() * (W - 60) + 30,
+          y: Math.random() * (H - 80) + 20,
+          r: Math.random() * 14 + 4,
+          habitable: Math.random() > .7,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+      function draw() {
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(0, 0, W, H);
+        planets.forEach(p => {
+          p.phase += .005;
+          const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 2.5);
+          if (p.habitable) {
+            glow.addColorStop(0, 'rgba(52,211,153,.12)');
+            glow.addColorStop(1, 'rgba(52,211,153,0)');
+          } else {
+            glow.addColorStop(0, 'rgba(239,68,68,.06)');
+            glow.addColorStop(1, 'rgba(239,68,68,0)');
+          }
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.habitable ? 'rgba(52,211,153,.5)' : 'rgba(239,68,68,.3)';
+          ctx.fill();
+          if (p.habitable) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * .5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(52,211,153,.3)';
+            ctx.fill();
+          }
+        });
+        ctx.fillStyle = '#5a5a6a';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        const habCount = planets.filter(p => p.habitable).length;
+        ctx.fillText(`🌍 ${habCount} habitable  |  🌑 ${planets.length - habCount} non-habitable  (Random Forest classification)`, W / 2, H - 12);
+        demoAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // ─── Demo dispatcher ───
+    function startDemo(type) {
+      if (demoAnimId) { cancelAnimationFrame(demoAnimId); demoAnimId = null; }
+      setTimeout(() => {
+        resizeDC();
+        switch (type) {
+          case 'neurarust': demoNeuraRust(); break;
+          case 'pbit': demoPbit(); break;
+          case 'brain': demoBrain(); break;
+          case 'montecarlo': demoMonteCarlo(); break;
+          case 'unobit': demoUnoBit(); break;
+          case 'habitability': demoHabitability(); break;
+          default: demoNeuraRust();
+        }
+      }, 100);
+    }
+
+    // ─── Background (minimalist particles) ───
+    (function() {
+      const c = document.getElementById('bg-canvas');
+      const ctx = c.getContext('2d');
+      let pts = [], W, H;
+      function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+      for (let i = 0; i < 60; i++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random()-.5)*.2, vy: (Math.random()-.5)*.2, r: Math.random()*1.5+.3, a: Math.random()*.3+.1 });
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(167,139,250,${p.a})`; ctx.fill();
+        });
+        // connections
+        for (let i = 0; i < pts.length; i++) {
+          for (let j = i + 1; j < pts.length; j++) {
+            const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.strokeStyle = `rgba(139,92,246,${.04 * (1 - dist / 150)})`;
+              ctx.lineWidth = .5; ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ─── Cursor glow ───
+    const glow = document.getElementById('cursor-glow');
+    document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; });
+
+    // ─── Reveal observer ───
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') });
+    }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ─── Nav indicator ───
+    (function() {
+      const links = document.querySelectorAll('nav a');
+      const nav = document.querySelector('nav ul');
+      const ind = document.createElement('div');
+      ind.className = 'nav-indicator';
+      nav?.appendChild(ind);
+      function move(el) {
+        if (!el) return;
+        const r = el.getBoundingClientRect(), p = nav.getBoundingClientRect();
+        ind.style.left = (r.left - p.left) + 'px';
+        ind.style.width = r.width + 'px';
+      }
+      links.forEach(a => { a.addEventListener('mouseenter', () => move(a)); a.addEventListener('focus', () => move(a)) });
+      // set initial on the first visible section
+      const sections = ['about','experience','projects','skills','research','contact'];
+      function onScroll() {
+        let current = sections[0];
+        for (const id of sections) {
+          const el = document.getElementById(id);
+          if (el && el.getBoundingClientRect().top < 300) current = id;
+        }
+        const a = document.querySelector(`nav a[data-sec="${current}"]`);
+        if (a) move(a);
+      }
+      window.addEventListener('scroll', onScroll);
+      setTimeout(onScroll, 100);
+    })();
   </script>
 </body>
 </html>
