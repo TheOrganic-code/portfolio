@@ -10,3 +10,4 @@
 - Use exactly 2 typefaces: one characterful display face used sparingly, one body face with a defined type scale. Confidence: 0.80
 - Color palette of 4-6 hex values must be justified by the subject matter (lab/instrument/paper aesthetics), not generic "space blue" or default gradient tokens. Confidence: 0.80
 - Use exactly one deliberate motion moment (page load OR scroll reveal OR hover micro-interaction), not all three scattered across the page. Respect prefers-reduced-motion. Confidence: 0.70
+- Keep project descriptions concise and impactful — reduce text clutter and focus on readability over exhaustive detail. Apply this principle across all project cards. Confidence: 0.70
