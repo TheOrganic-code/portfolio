@@ -1,33 +1,33 @@
 import { useRef, useEffect, useState } from 'react'
 
-const gifUrls = [
-  'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
-  'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
-  'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
-  'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
-  'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
-  'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
-  'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
-  'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
-  'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
-  'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
-  'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
-  'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif',
-  'https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif',
-  'https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif',
-  'https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif',
-  'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif',
-  'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif',
-  'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif',
-  'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif',
-  'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif',
-  'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
+const unsplashImages = [
+  'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=80',
+  'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&q=80',
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80',
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80',
+  'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=600&q=80',
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80',
+  'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=600&q=80',
+  'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80',
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80',
+  'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=600&q=80',
+  'https://images.unsplash.com/photo-1518152006812-edab29b069ac?w=600&q=80',
+  'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&q=80',
+  'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&q=80',
+  'https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=600&q=80',
+  'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
+  'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&q=80',
+  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80',
+  'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80',
+  'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&q=80',
+  'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&q=80',
 ]
 
-const row1 = gifUrls.slice(0, 11)
-const tripledRow1 = [...row1, ...row1, ...row1]
-const row2 = gifUrls.slice(11, 21)
-const tripledRow2 = [...row2, ...row2, ...row2]
+const row1Images = unsplashImages.slice(0, 11)
+const tripledRow1 = [...row1Images, ...row1Images, ...row1Images]
+const row2Images = unsplashImages.slice(11, 21)
+const tripledRow2 = [...row2Images, ...row2Images, ...row2Images]
 
 function ImageTile({ src }: { src: string }) {
   return (
@@ -60,7 +60,6 @@ export function MarqueeSection() {
 
   return (
     <section ref={sectionRef} className="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden">
-      {/* Row 1 - moves RIGHT on scroll */}
       <div
         className="flex gap-3 mb-3"
         style={{
@@ -73,7 +72,6 @@ export function MarqueeSection() {
         ))}
       </div>
 
-      {/* Row 2 - moves LEFT on scroll */}
       <div
         className="flex gap-3"
         style={{

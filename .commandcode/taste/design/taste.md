@@ -1,10 +1,11 @@
 # design
 - Use Google Fonts (e.g., Space Grotesk, Inter, JetBrains Mono) instead of system fonts for polished typography. Confidence: 0.70
+- Every visual element (icons, images, SVGs) on a project card or section must be semantically relevant to that project's domain — no decorative/placeholder imagery that contradicts the subject (e.g., no sunflower for a Rust project). Confidence: 0.80
 - Make project cards clickable with live canvas-based demos/simulations showing what each project does. Confidence: 0.70
 - Aim for premium/expensive-looking design with custom SVG graphics, layered visuals, and fine details (custom cursors, noise textures, orbital elements) rather than basic CSS-only styling. Confidence: 0.70
 - Avoid generic AI-template portfolio clichés: no emoji section icons, no decorative ✦/01-02-03 markers (unless encoding real sequence), no purple-to-blue gradient buttons, no cosmic/galaxy click-to-reveal metaphors on generic cards. Confidence: 0.85
 - Pick one concrete aesthetic direction and commit to it fully rather than mixing metaphors across different visual languages. Confidence: 0.85
-- Signature visual elements should be driven by actual data (waveforms, lattices, oscilloscope-style) rather than pure decoration. Confidence: 0.85
+- Signature visual elements should be driven by actual data (waveforms, lattices, oscilloscope-style) rather than pure decoration. Confidence: 0.90
 - Use exactly 2 typefaces: one characterful display face used sparingly, one body face with a defined type scale. Confidence: 0.80
 - Color palette of 4-6 hex values must be justified by the subject matter (lab/instrument/paper aesthetics), not generic "space blue" or default gradient tokens. Confidence: 0.80
 - Use exactly one deliberate motion moment (page load OR scroll reveal OR hover micro-interaction), not all three scattered across the page. Respect prefers-reduced-motion. Confidence: 0.70

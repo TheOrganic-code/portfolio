@@ -1,29 +1,28 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { LiveProjectButton } from './LiveProjectButton'
 
 const projects = [
   {
     num: '01',
     name: 'NeuraRust',
-    category: 'Framework',
+    category: 'Systems / ML',
     client: 'Open Source',
     col1: [
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85',
+      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=80',
+      'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&q=80',
     ],
-    col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85',
+    col2: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80',
   },
   {
     num: '02',
     name: 'P-bit Simulator',
-    category: 'Research',
-    client: 'Personal',
+    category: 'Physics / ML',
+    client: 'Research',
     col1: [
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85',
+      'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=600&q=80',
+      'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=600&q=80',
     ],
-    col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85',
+    col2: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80',
   },
   {
     num: '03',
@@ -31,10 +30,10 @@ const projects = [
     category: 'Deep Learning',
     client: 'Academic',
     col1: [
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
+      'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=600&q=80',
+      'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80',
     ],
-    col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85',
+    col2: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80',
   },
 ]
 
@@ -62,7 +61,6 @@ function ProjectCard({
         style={{ scale, transformOrigin: 'top center' }}
         className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 h-full overflow-hidden"
       >
-        {/* Top row */}
         <div className="flex items-start justify-between mb-4 sm:mb-6">
           <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
             <span
@@ -83,13 +81,17 @@ function ProjectCard({
             </div>
           </div>
           <a href="https://github.com/TheOrganic-code" target="_blank" rel="noopener noreferrer">
-            <LiveProjectButton />
+            <button
+              className="rounded-full border-2 border-[#D7E2EA] text-[#D7E2EA] font-medium uppercase tracking-widest
+                         px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base
+                         hover:bg-[#D7E2EA]/10 transition-all duration-200"
+            >
+              Live Project
+            </button>
           </a>
         </div>
 
-        {/* Bottom row - image grid */}
         <div className="flex gap-3 sm:gap-4 h-[calc(100%-8rem)]">
-          {/* Left column - 2 stacked images */}
           <div className="w-[40%] flex flex-col gap-3 sm:gap-4">
             <img
               src={project.col1[0]}
@@ -106,7 +108,6 @@ function ProjectCard({
               style={{ height: 'clamp(160px, 22vw, 340px)' }}
             />
           </div>
-          {/* Right column - 1 tall image */}
           <div className="w-[60%]">
             <img
               src={project.col2}
