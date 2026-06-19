@@ -1,0 +1,10 @@
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temp files
+*.log
+*.tmp
+
+# PDF resumes (personal info)
+*.pdf
