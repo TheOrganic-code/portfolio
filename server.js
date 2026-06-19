@@ -3,18 +3,12 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// A minimal catch-all route to verify Express is running
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// Serve Vite build output
+app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('/health', (req, res) => {
-  res.json({ status: 'running', port: PORT });
-});
-
-// Catch-all for SPA routing
+// SPA catch-all
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
