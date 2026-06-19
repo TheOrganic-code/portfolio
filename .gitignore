@@ -1,10 +1,6 @@
-# OS files
-Thumbs.db
+node_modules/
+npm-debug.log*
 .DS_Store
-
-# Temp files
+Thumbs.db
 *.log
 *.tmp
-
-# PDF resumes (personal info)
-*.pdf
