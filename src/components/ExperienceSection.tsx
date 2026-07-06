@@ -1,64 +1,90 @@
-import { motion } from 'framer-motion'
-
 const experiences = [
   {
-    role: 'Undergraduate Researcher',
-    org: 'QM Lab, RGIPT',
-    period: 'Jan 2026 - Jun 2026',
-    desc: 'Developing machine learning methods for muon-site prediction in crystalline materials. Applying physics-informed neural networks to analyze muon spin relaxation data for crystal structure characterization.',
-    tags: ['PyTorch', 'PINNs', 'Scientific Computing', 'PyMatGen'],
+    date: '2026',
+    title: 'Neutron Beam Award Recipient',
+    org: 'Spallation Neutron Source (SNS), Oak Ridge National Laboratory',
+    desc: 'Awarded competitive neutron beam time at the Spallation Neutron Source, Oak Ridge National Laboratory (Oak Ridge, TN, US). Proposal IPTS-36564. Conducted research using world-class neutron scattering facilities from January to June 2026.',
   },
   {
-    role: 'AI Engineer Intern',
-    org: 'DigitiTwin',
-    period: 'May 2026 - Present',
-    desc: 'Building AI-powered systems for enterprise use. Fine-tuning LLMs on domain-specific datasets and building RAG pipelines for proprietary knowledge retrieval.',
-    tags: ['LLMs', 'RAG', 'Python', 'MLOps'],
+    date: '2025',
+    title: 'Finalist — Union Bank Ideathon',
+    org: 'Union Bank of India',
+    desc: 'Recognized as a finalist in the Union Bank Ideathon for developing innovative solutions in fintech and banking technology.',
+  },
+  {
+    date: '2025 — Present',
+    title: 'Undergraduate Researcher',
+    org: 'Quantum Materials Lab, RGIPT',
+    desc: 'Developing accelerated muon-site detection methodology for μSR experiments under Dr. Tathamay Basu. Research evolved from computational condensed matter physics to building computational frameworks combining modern optimization, scientific computing, crystallographic symmetry, and physics-guided algorithms.',
+  },
+  {
+    date: '2025 — Present',
+    title: 'Researcher',
+    org: 'Qinetic Research Lab',
+    desc: 'Working on quantum computing, quantum information, Physics-Informed Neural Networks (PINNs), and computational methods for next-generation quantum technologies.',
+  },
+  {
+    date: '2025 — Present',
+    title: 'AI Engineer Intern',
+    org: 'DigiTwin Technology',
+    desc: 'Fine-tuning large language models, building Retrieval-Augmented Generation (RAG) systems, developing enterprise AI solutions, data engineering pipelines, and deploying production-ready AI applications.',
+  },
+  {
+    date: '2025 — Present',
+    title: 'Researcher',
+    org: 'Grunchie Labs',
+    desc: 'Contributing to AI-focused research projects and experimental software systems across multiple domains.',
+  },
+  {
+    date: '2024 — 2025',
+    title: 'Project Lead Developer',
+    org: 'Dripfeed',
+    desc: 'Led technical development efforts during the platform\'s early stages.',
+  },
+  {
+    date: '2024',
+    title: 'Participant',
+    org: 'Stanford Code in Place',
+    desc: 'Completed Stanford University\'s Code in Place program, strengthening software engineering and programming foundations.',
+  },
+  {
+    date: '2024 — 2029',
+    title: 'B.Tech Mathematics and Computing',
+    org: 'Rajiv Gandhi Institute of Petroleum Technology (RGIPT)',
+    desc: 'CPI: 8.68/10.0. Relevant areas: linear algebra, differential equations, probability theory, numerical methods, computational physics, systems programming.',
   },
 ]
 
 export function ExperienceSection() {
   return (
-    <section className="relative z-10 section-padding">
-      <div className="max-w-5xl mx-auto">
-        <div className="section-label mb-10">
-          <div className="line" />
-          <span>Experience</span>
-        </div>
-
-        <div className="relative">
-          <div className="absolute left-[7px] md:left-[199px] top-0 bottom-0 w-px" style={{ background: '#1E1E1E' }} />
-
-          {experiences.map((exp, i) => (
-            <motion.div
-              key={exp.org}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="relative flex flex-col md:flex-row gap-4 md:gap-8 pb-14 last:pb-0"
-            >
-              <div className="md:w-48 flex-shrink-0 flex items-start gap-3 md:justify-end">
-                <div className="md:hidden w-[14px] h-[14px] rounded-full mt-[3px] flex-shrink-0" style={{ background: '#FF5C8A' }} />
-                <div>
-                  <span className="text-xs font-mono" style={{ color: '#707070' }}>{exp.period}</span>
-                  <div className="hidden md:block absolute md:left-[190px] top-[3px] w-[14px] h-[14px] rounded-full ring-[3px] ring-[#0B0B0B]" style={{ background: '#FF5C8A' }} />
-                </div>
-              </div>
-
-              <div className="flex-1 card p-5">
-                <h3 className="text-white font-semibold text-base mb-0.5">{exp.role}</h3>
-                <p className="text-sm font-medium mb-3" style={{ color: '#FF5C8A' }}>{exp.org}</p>
-                <p className="text-sm leading-relaxed mb-3.5" style={{ color: '#707070' }}>{exp.desc}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {exp.tags.map((tag) => (
-                    <span key={tag} className="tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <section style={{ position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 80px', padding: '0 32px' }}>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-.3px', marginBottom: 28 }}>
+        Experience
+      </h2>
+      <div style={{ position: 'relative', paddingLeft: 28, borderLeft: '1px solid rgba(255,255,255,0.1)' }}>
+        {experiences.map((exp) => (
+          <div key={exp.title + exp.date} style={{ marginBottom: 32, position: 'relative' }}>
+            <div style={{
+              position: 'absolute', left: -33, top: 6, width: 10, height: 10,
+              borderRadius: '50%', background: '#c8d8ff', border: '2px solid #0a0a0f',
+            }} />
+            <div style={{
+              fontSize: 12, color: 'rgba(240,239,248,0.55)', textTransform: 'uppercase',
+              letterSpacing: 1, marginBottom: 4,
+            }}>
+              {exp.date}
+            </div>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: 20, fontWeight: 600, marginBottom: 2 }}>
+              {exp.title}
+            </h3>
+            <div style={{ fontSize: 14, color: '#7b68ee', marginBottom: 8 }}>
+              {exp.org}
+            </div>
+            <p style={{ fontSize: 14, color: 'rgba(240,239,248,0.55)', lineHeight: 1.7 }}>
+              {exp.desc}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   )

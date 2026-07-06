@@ -1,39 +1,46 @@
-import { motion } from 'framer-motion'
-
 const categories = [
-  { name: 'Machine Learning', items: ['Python', 'PyTorch', 'Scikit-Learn', 'OpenCV'] },
-  { name: 'Programming', items: ['Python', 'C++', 'Rust', 'SQL'] },
-  { name: 'Research', items: ['Scientific Computing', 'Numerical Methods', 'Data Analysis'] },
-  { name: 'Tools', items: ['Git', 'Linux', 'Jupyter', 'VS Code'] },
+  {
+    name: 'Languages',
+    items: ['Python', 'Rust', 'C', 'C++', 'MATLAB'],
+  },
+  {
+    name: 'AI & Scientific Computing',
+    items: ['PyTorch', 'NumPy', 'SciPy', 'Pandas', 'Pymatgen', 'RAG', 'LLM fine-tuning', 'Scientific visualization', 'Jupyter'],
+  },
+  {
+    name: 'Tools & Systems',
+    items: ['Linux', 'Git', 'VS Code', 'WSL', 'Docker', 'Data engineering', 'LaTeX'],
+  },
 ]
 
 export function TechStackSection() {
   return (
-    <section className="relative z-10 section-padding">
-      <div className="max-w-5xl mx-auto">
-        <div className="section-label mb-10">
-          <div className="line" />
-          <span>Technical Stack</span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {categories.map((cat, i) => (
-            <motion.div
-              key={cat.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-            >
-              <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#707070' }}>{cat.name}</h3>
-              <div className="flex flex-wrap gap-2">
-                {cat.items.map((item) => (
-                  <span key={item} className="tag text-sm !px-3 !py-1.5">{item}</span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <section style={{ position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 80px', padding: '0 32px' }}>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-.3px', marginBottom: 28 }}>
+        Technical skills
+      </h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        {categories.map((cat) => (
+          <div key={cat.name}>
+            <h3 style={{
+              fontSize: 12, textTransform: 'uppercase', letterSpacing: 1.5,
+              color: 'rgba(240,239,248,0.55)', marginBottom: 16, fontWeight: 500,
+            }}>
+              {cat.name}
+            </h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {cat.items.map((item) => (
+                <span key={item} style={{
+                  fontSize: 12, color: '#c8d8ff',
+                  border: '1px solid rgba(200,216,255,.2)', borderRadius: 20,
+                  padding: '5px 14px', whiteSpace: 'nowrap',
+                }}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )
