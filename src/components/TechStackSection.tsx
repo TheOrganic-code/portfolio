@@ -16,9 +16,6 @@ const categories = [
 export function TechStackSection() {
   return (
     <section style={{ position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 80px', padding: '0 32px' }}>
-      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-.3px', marginBottom: 28 }}>
-        Technical skills
-      </h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
         {categories.map((cat) => (
           <div key={cat.name}>

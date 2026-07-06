@@ -18,9 +18,6 @@ const honors = [
 export function HonorsSection() {
   return (
     <section style={{ position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 80px', padding: '0 32px' }}>
-      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-.3px', marginBottom: 28 }}>
-        Honors &amp; awards
-      </h2>
       {honors.map((h) => (
         <div
           key={h.title}

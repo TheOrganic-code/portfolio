@@ -18,9 +18,6 @@ export function GitHubSection() {
 
   return (
     <section style={{ position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 80px', padding: '0 32px' }}>
-      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-.3px', marginBottom: 6 }}>
-        Open Source
-      </h2>
       <p style={{ fontSize: 14, color: 'rgba(240,239,248,0.55)', marginBottom: 24 }}>
         Recent repositories on{' '}
         <a href="https://github.com/TheOrganic-code" target="_blank" rel="noopener" style={{ color: '#c8d8ff', textDecoration: 'none' }}>
