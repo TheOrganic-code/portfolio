@@ -58,6 +58,9 @@ const experiences = [
 export function ExperienceSection() {
   return (
     <section style={{ position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 80px', padding: '0 32px' }}>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-.3px', marginBottom: 28 }}>
+        Experience
+      </h2>
       <div style={{ position: 'relative', paddingLeft: 28, borderLeft: '1px solid rgba(255,255,255,0.1)' }}>
         {experiences.map((exp) => (
           <div key={exp.title + exp.date} style={{ marginBottom: 32, position: 'relative' }}>

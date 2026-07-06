@@ -12,6 +12,9 @@ const interests = [
 export function ResearchInterestsSection() {
   return (
     <section style={{ position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 80px', padding: '0 32px' }}>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-.3px', marginBottom: 28 }}>
+        Research interests
+      </h2>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {interests.map((interest) => (
           <span key={interest} style={{

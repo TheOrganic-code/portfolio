@@ -25,7 +25,7 @@ export function Navbar() {
         WebkitBackdropFilter: scrolled ? 'blur(24px) saturate(1.2)' : 'none',
       }}
     >
-      <div style={{ width: '100%', maxWidth: 1200, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ width: '100%', maxWidth: 1200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#f0eff8' }}>
           <svg width={28} height={28} viewBox="0 0 28 28" fill="none">
             <rect width={28} height={28} rx={4} fill="none" />
@@ -40,46 +40,6 @@ export function Navbar() {
             Grunchie Lab
           </span>
         </a>
-
-        <ul style={{ display: 'flex', alignItems: 'center', gap: 4, listStyle: 'none' }}>
-          {['Research', 'Models', 'About', 'Blog'].map((label) => (
-            <li key={label}>
-              <a
-                href={`#${label.toLowerCase()}`}
-                style={{
-                  color: label === 'About' ? '#f0eff8' : 'rgba(240,239,248,0.55)',
-                  textDecoration: 'none', fontSize: 14, fontWeight: 400,
-                  padding: '8px 14px', borderRadius: 6,
-                  transition: 'color .25s, background .25s', position: 'relative',
-                }}
-              >
-                {label}
-                {label === 'About' && (
-                  <span style={{
-                    position: 'absolute', bottom: 2, left: 14, right: 14, height: '1.5px',
-                    background: '#c8d8ff', borderRadius: 1,
-                  }} />
-                )}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button style={{
-            color: 'rgba(240,239,248,0.55)', fontSize: 14, background: 'none', border: 'none',
-            padding: '8px 16px', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit',
-          }}>
-            Sign in
-          </button>
-          <button style={{
-            fontSize: 13, fontWeight: 500, background: '#c8d8ff', color: '#0a0a0f',
-            border: 'none', padding: '8px 18px', borderRadius: 6, cursor: 'pointer',
-            fontFamily: 'inherit', letterSpacing: '.2px',
-          }}>
-            Apply for access
-          </button>
-        </div>
       </div>
     </nav>
   )
