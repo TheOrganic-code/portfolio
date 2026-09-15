@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 const DENSITY_RAMP = ' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
 const DENSITY_RAMP_SIMPLE = ' .:-=+*#%@';
@@ -226,6 +226,9 @@ export function AsciiInstrument({
     onStateChange?.('LATTICE OPTIMIZATION');
   }, [width, height, onStateChange]);
 
+  const spinsRef = useRef<number[]>([]);
+  const energyTraceRef = useRef<number[]>([]);
+
   const renderEnergy = useCallback((t: number) => {
     const frame = frameRef.current;
     for (let y = 0; y < height; y++) {
@@ -235,13 +238,20 @@ export function AsciiInstrument({
     const gridSize = 12;
     const cellW = Math.floor((width - 10) / gridSize);
     const cellH = Math.floor((height - 6) / gridSize);
-    const spins = useMemo(() => Array.from({ length: gridSize * gridSize }, () => Math.random() > 0.5 ? 1 : -1), []);
-    const energyTrace = useRef<number[]>([]);
+    const spins = spinsRef.current;
+    const energyTrace = energyTraceRef.current;
 
     if (!ref.current) return;
 
     let accepted = 0;
     const temp = 1.5 + Math.sin(t * 0.1) * 0.5;
+
+    // Initialize spins on first render
+    if (spins.length === 0) {
+      for (let i = 0; i < gridSize * gridSize; i++) {
+        spins[i] = Math.random() > 0.5 ? 1 : -1;
+      }
+    }
 
     for (let step = 0; step < 3; step++) {
       const i = Math.floor(Math.random() * spins.length);
@@ -272,8 +282,8 @@ export function AsciiInstrument({
         });
       }
     }
-    energyTrace.current.push(energy);
-    if (energyTrace.current.length > width - 15) energyTrace.current.shift();
+    energyTrace.push(energy);
+    if (energyTrace.length > width - 15) energyTrace.shift();
 
     for (let y = 0; y < gridSize; y++) {
       for (let x = 0; x < gridSize; x++) {
@@ -286,9 +296,9 @@ export function AsciiInstrument({
     }
 
     const traceY = height - 3;
-    const minE = Math.min(...energyTrace.current);
-    const maxE = Math.max(...energyTrace.current);
-    energyTrace.current.forEach((e, i) => {
+    const minE = Math.min(...energyTrace);
+    const maxE = Math.max(...energyTrace);
+    energyTrace.forEach((e, i) => {
       const ny = traceY - Math.round(((e - minE) / (maxE - minE || 1)) * (height - 6));
       if (ny >= 0 && ny < height && i + 10 < width) {
         frame[ny][i + 10] = '·';
@@ -596,14 +606,6 @@ export function AsciiInstrument({
     }
     return () => cancelAnimationFrame(animRef.current!);
   }, [reduced, visible, frozen, scene, render]);
-
-  // Ensure initial render on mount
-  useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      render();
-    }
-  }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!interactive) return;

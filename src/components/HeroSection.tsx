@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { ReiAscii } from './ReiAscii'
+import { PhysicsAscii } from './PhysicsAscii'
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -73,7 +73,7 @@ export function HeroSection() {
 
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ position: 'relative', width: '100%', maxWidth: 580, aspectRatio: '1' }}>
-          <ReiAscii reducedMotion={false} />
+          <PhysicsAscii reducedMotion={false} />
         </div>
         <div className="section-reveal" style={{
           position: 'absolute', bottom: -40, left: '50%', transform: 'translateX(-50%)',
