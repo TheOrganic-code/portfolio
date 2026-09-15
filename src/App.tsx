@@ -1,41 +1,27 @@
-import { ParticleField } from './components/ParticleField'
 import { Navbar } from './components/Navbar'
 import { HeroSection } from './components/HeroSection'
-import { StatsBar } from './components/StatsBar'
-import { ResearchAreasSection } from './components/ResearchAreasSection'
-import { HonorsSection } from './components/HonorsSection'
-import { ProjectsSection } from './components/ProjectsSection'
+import { ResearchMap } from './components/ResearchMap'
+import { ProjectSlider } from './components/ProjectSlider'
+import { Timeline } from './components/Timeline'
 import { PublicationsSection } from './components/PublicationsSection'
-import { ExperienceSection } from './components/ExperienceSection'
-import { TechStackSection } from './components/TechStackSection'
-import { ResearchInterestsSection } from './components/ResearchInterestsSection'
-import { GitHubSection } from './components/GitHubSection'
-import { Footer } from './components/Footer'
+import { SkillsMatrix } from './components/SkillsMatrix'
+import { ContactSection } from './components/ContactSection'
 
-const wrapperStyle: React.CSSProperties = {
-  maxWidth: 1200, margin: '0 auto', padding: '0 32px',
-}
-
-export default function App() {
+function App() {
   return (
-    <main>
-      <ParticleField />
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        <Navbar />
+    <>
+      <Navbar />
+      <main id="main">
         <HeroSection />
-        <div style={wrapperStyle}>
-          <StatsBar />
-        </div>
-        <ResearchAreasSection />
-        <HonorsSection />
-        <ProjectsSection />
+        <ResearchMap />
+        <ProjectSlider />
+        <Timeline />
         <PublicationsSection />
-        <ExperienceSection />
-        <TechStackSection />
-        <ResearchInterestsSection />
-        <GitHubSection />
-        <Footer />
-      </div>
-    </main>
+        <SkillsMatrix />
+        <ContactSection />
+      </main>
+    </>
   )
 }
+
+export default App

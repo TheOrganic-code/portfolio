@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
+import { HeroSignal } from './AsciiScenes'
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -8,94 +8,103 @@ export function HeroSection() {
     const pm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (pm) return
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.9 } })
-      tl.fromTo('.hero-name', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.0 }, 0)
-      tl.fromTo('.hero-role', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.1)
-      tl.fromTo('.hero-edu', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.2)
-      tl.fromTo('.hero-location', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.65 }, 0.25)
-      tl.fromTo('.hero-bio', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.75 }, 0.35)
-      tl.fromTo('.hero-links', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.65 }, 0.45)
-    }, sectionRef)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+        }
+      },
+      { threshold: 0.1 }
+    )
 
-    return () => ctx.revert()
+    const elements = sectionRef.current?.querySelectorAll('.section-reveal')
+    elements?.forEach(el => observer.observe(el))
+
+    return () => observer.disconnect()
   }, [])
 
   return (
     <section
       ref={sectionRef}
+      id="hero"
       style={{
         position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto',
-        padding: '100px 32px 80px', display: 'flex', gap: 60, alignItems: 'flex-start',
-        flexWrap: 'wrap',
+        padding: '140px 32px 100px', minHeight: '100vh',
+        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60,
+        alignItems: 'center',
       }}
+      aria-labelledby="hero-title"
     >
-      <div style={{
-        flexShrink: 0, width: 180, height: 180, borderRadius: '50%',
-        background: 'none', border: 'none', overflow: 'visible',
-      }}>
-        <img
-          src="https://avatars.githubusercontent.com/u/214618867?v=4"
-          alt="Ayush Pandey"
-          style={{
-            width: 180, height: 180, borderRadius: '50%', objectFit: 'cover',
-            border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 0 40px rgba(200,216,255,0.1)',
-          }}
-        />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div className="section-reveal" style={{ transitionDelay: '0ms' }}>
+          <span className="eyebrow">AYUSH PANDEY / RESEARCH + SYSTEMS</span>
+        </div>
+        <div className="section-reveal" style={{ transitionDelay: '100ms' }}>
+          <h1 id="hero-title" style={{ fontSize: 'clamp(44px, 6vw, 72px)', lineHeight: 1.05, marginBottom: 8 }}>
+            Research-grade systems, built from first principles.
+          </h1>
+        </div>
+        <div className="section-reveal" style={{ transitionDelay: '200ms' }}>
+          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: '#9b9a94', lineHeight: 1.7, maxWidth: 520 }}>
+            Undergraduate researcher and AI engineer working across scientific machine learning, computational condensed matter, quantum information, and high-performance ML systems.
+          </p>
+        </div>
+        <div className="section-reveal" style={{ transitionDelay: '300ms', display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 8 }}>
+          <button className="btn-primary" onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}>
+            Explore the Work
+          </button>
+          <a href="https://github.com/TheOrganic-code" target="_blank" rel="noopener" className="btn-secondary">
+            Open GitHub
+          </a>
+        </div>
+        <div className="section-reveal" style={{ transitionDelay: '400ms', marginTop: 16 }}>
+          <span style={{
+            fontFamily: 'var(--mono)', fontSize: 11, textTransform: 'uppercase',
+            letterSpacing: 1.5, color: '#6b6a65', display: 'inline-flex', alignItems: 'center', gap: 8
+          }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ecdc4', boxShadow: '0 0 12px #4ecdc4' }} />
+            Open to research collaborations & systems engineering roles
+          </span>
+        </div>
       </div>
 
-      <div style={{ flex: 1, paddingTop: 8 }}>
-        <div className="hero-role" style={{
-          fontSize: 13, textTransform: 'uppercase', letterSpacing: 2,
-          color: '#7b68ee', marginBottom: 8, fontWeight: 500,
-        }}>
-          Co-Founder & Research Lead
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: 520, aspectRatio: '1' }}>
+          <div style={{
+            position: 'absolute', inset: -20, zIndex: -1,
+            background: 'radial-gradient(ellipse at center, rgba(78,205,196,0.06) 0%, transparent 70%)',
+            borderRadius: '50%', pointerEvents: 'none',
+          }} />
+          <div style={{
+            position: 'absolute', inset: -10, zIndex: -1,
+            border: '1px solid rgba(78,205,196,0.1)', borderRadius: '50%',
+          }} />
+          <HeroSignal width={64} height={26} speed={1} />
         </div>
-        <h1 className="hero-name" style={{
-          fontFamily: 'var(--serif)', fontSize: 56, fontWeight: 500,
-          lineHeight: 1.1, letterSpacing: '-.8px', marginBottom: 12,
+        <div className="section-reveal" style={{
+          position: 'absolute', bottom: -40, left: '50%', transform: 'translateX(-50%)',
+          transitionDelay: '500ms', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+          fontFamily: 'var(--mono)', fontSize: 10, color: '#6b6a65',
         }}>
-          Ayush Pandey
-        </h1>
-        <div className="hero-edu" style={{ fontSize: 15, color: 'rgba(240,239,248,0.55)', marginBottom: 6 }}>
-          <strong style={{ color: '#f0eff8', fontWeight: 500 }}>B.Tech Mathematics and Computing</strong> &middot; Rajiv Gandhi Institute of Petroleum Technology (RGIPT)
-        </div>
-        <div className="hero-location" style={{ fontSize: 14, color: 'rgba(240,239,248,0.55)', marginBottom: 20 }}>
-          Jais, Amethi, Uttar Pradesh, India &middot; Class of 2029
-        </div>
-        <p className="hero-bio" style={{
-          fontSize: 15, color: 'rgba(240,239,248,0.55)', lineHeight: 1.8,
-          maxWidth: 620, marginBottom: 24,
-        }}>
-          Undergraduate researcher and AI engineer working across scientific machine learning, condensed matter physics, quantum information, large language models, systems programming, and high-performance computing. Driven by first-principles thinking — develops research-grade software from scratch rather than relying on existing abstractions. Reads research papers, derives algorithms, and implements methods independently.
-        </p>
-        <div className="hero-links" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          {[
-            { href: 'https://github.com/TheOrganic-code', label: 'GitHub' },
-            { href: 'https://www.linkedin.com/in/ayushpandey1801/', label: 'LinkedIn' },
-            { href: 'https://orcid.org/0009-0003-9128-8045', label: 'ORCID' },
-            { href: 'https://huggingface.co/TheOrganic-code', label: 'HuggingFace' },
-            { href: 'https://discord.com/users/viperkun', label: 'Discord: viperkun' },
-            { href: 'mailto:25mc3016@rgipt.ac.in', label: '25mc3016@rgipt.ac.in' },
-          ].map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target={link.href.startsWith('mailto') ? undefined : '_blank'}
-              rel={link.href.startsWith('mailto') ? undefined : 'noopener'}
-              style={{
-                fontSize: 13, color: '#c8d8ff', textDecoration: 'none',
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                border: '1px solid rgba(255,255,255,0.1)', padding: '8px 16px',
-                borderRadius: 6,
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
+          <span>01 / 06</span>
+          <svg width={20} height={32} viewBox="0 0 20 32" fill="none" style={{ animation: 'scrollDown 2s ease-in-out infinite' }}>
+            <path d="M10 2 L10 28" stroke="#9b9a94" strokeWidth={1.5} strokeLinecap="round" />
+            <circle cx={10} cy={28} r={3} stroke="#9b9a94" strokeWidth={1.5} fill="none" />
+          </svg>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes scrollDown {
+          0% { transform: translateY(0); opacity: 0.6; }
+          50% { transform: translateY(8px); opacity: 1; }
+          100% { transform: translateY(0); opacity: 0.6; }
+        }
+        @media (max-width: 900px) {
+          section { grid-template-columns: 1fr; gap: 40; padding-top: 120px; }
+          .scroll-cue { display: none; }
+        }
+      `}</style>
     </section>
   )
 }
