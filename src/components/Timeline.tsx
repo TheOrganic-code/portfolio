@@ -2,78 +2,61 @@ import { useRef, useEffect, useState } from 'react'
 
 const timelineItems = [
   {
-    date: '2026',
-    title: 'Neutron Beam Award Recipient',
-    org: 'Spallation Neutron Source (SNS), Oak Ridge National Laboratory',
-    location: 'Oak Ridge, TN, US',
-    type: 'honor',
-    description: 'Awarded competitive neutron beam time at the Spallation Neutron Source, Oak Ridge National Laboratory. Proposal IPTS-36564. Conducted research using world-class neutron scattering facilities from January to June 2026.',
-  },
-  {
-    date: '2025',
-    title: 'Finalist — Union Bank Ideathon',
-    org: 'Union Bank of India',
-    location: 'India',
-    type: 'honor',
-    description: 'Recognized as a finalist in the Union Bank Ideathon for developing innovative solutions in fintech and banking technology.',
-  },
-  {
-    date: '2025 — Present',
+    date: 'Jan 2026 – Present',
     title: 'Undergraduate Researcher',
     org: 'Quantum Materials Lab, RGIPT',
     location: 'Jais, Amethi, Uttar Pradesh, India',
-    type: 'experience',
-    description: 'Developing accelerated muon-site detection methodology for μSR experiments under Dr. Tathamay Basu. Research evolved from computational condensed matter physics to building computational frameworks combining modern optimization, scientific computing, crystallographic symmetry, and physics-guided algorithms.',
+    type: 'research',
+    description: 'Developing accelerated muon-site detection methodology for μSR experiments under Dr. Tathamay Basu. Physics-informed neural framework (MEOWN) for rapid prediction of muon stopping sites. First-author manuscript under review at Physical Review B. Competitive neutron beam time awarded at Spallation Neutron Source, ORNL (IPTS-36564) as On-site Principal Investigator.',
   },
   {
-    date: '2025 — Present',
-    title: 'Researcher',
-    org: 'Qinetic Research Lab',
-    location: 'Remote',
-    type: 'experience',
-    description: 'Working on quantum computing, quantum information, Physics-Informed Neural Networks (PINNs), and computational methods for next-generation quantum technologies.',
-  },
-  {
-    date: '2025 — Present',
+    date: 'May 2026 – Jul 2026',
     title: 'AI Engineer Intern',
-    org: 'DigiTwin Technology',
-    location: 'Remote',
-    type: 'experience',
-    description: 'Fine-tuning large language models, building Retrieval-Augmented Generation (RAG) systems, developing enterprise AI solutions, data engineering pipelines, and deploying production-ready AI applications.',
+    org: 'Digitwin Technology',
+    location: 'Chennai, Tamil Nadu, India',
+    type: 'industry',
+    description: 'LoRA/QLoRA fine-tuning on industrial datasets, RAG pipelines over proprietary knowledge bases, KV cache optimization, FlashAttention, speculative decoding, vLLM deployment, translation of research-grade methods into production inference systems.',
   },
   {
-    date: '2025 — Present',
+    date: 'Jun 2026 – Present',
     title: 'Researcher',
-    org: 'Grunchie Labs',
-    location: 'Remote',
-    type: 'experience',
-    description: 'Contributing to AI-focused research projects and experimental software systems across multiple domains.',
+    org: 'Qinetic Research Labs',
+    location: 'Remote (US-based)',
+    type: 'research',
+    description: 'Quantum computing algorithms, quantum networking protocols, physics-informed neural networks for non-classical systems, theoretical foundations for quantum information processing.',
   },
   {
-    date: '2024 — 2025',
-    title: 'Project Lead Developer',
-    org: 'Dripfeed',
-    location: 'Remote',
-    type: 'experience',
-    description: 'Led technical development efforts during the platform\'s early stages.',
+    date: 'Jul 2026 – Present',
+    title: 'Data Scientist',
+    org: 'ICCFGC',
+    location: 'Coimbatore, Tamil Nadu, India',
+    type: 'industry',
+    description: 'ML and data-science work for urban planning and remote sensing applications. Spatial data analysis, satellite imagery processing, and predictive modeling for civic infrastructure.',
   },
   {
-    date: '2024',
-    title: 'Participant — Stanford Code in Place',
-    org: 'Stanford University',
-    location: 'Online',
-    type: 'experience',
-    description: 'Completed Stanford University\'s Code in Place program, strengthening software engineering and programming foundations.',
+    date: 'Ongoing',
+    title: 'Training & Placement Coordinator',
+    org: 'Mathematical Sciences Department, RGIPT',
+    location: 'Jais, Amethi, Uttar Pradesh, India',
+    type: 'leadership',
+    description: 'Coordinating placement activities, industry outreach, and student preparation for the Mathematical Sciences department.',
   },
   {
-    date: '2024 — 2029',
-    title: 'B.Tech Mathematics and Computing',
+    date: '2025 – 2029',
+    title: 'B.Tech. Mathematics and Computing',
     org: 'Rajiv Gandhi Institute of Petroleum Technology (RGIPT)',
     location: 'Jais, Amethi, Uttar Pradesh, India',
     type: 'education',
-    description: 'CPI: 8.68/10.0. Relevant areas: linear algebra, differential equations, probability theory, numerical methods, computational physics, systems programming. Class of 2029.',
+    description: 'CPI: 8.22/10.0. Relevant coursework: real analysis, differential equations, number theory, optimization, numerical methods, computational physics, probability theory, linear algebra, systems programming.',
   },
 ]
+
+const typeStyles: Record<string, { color: string; bg: string; border: string; label: string }> = {
+  research: { color: 'var(--accent-cyan)', bg: 'rgba(113,229,223,0.1)', border: 'rgba(113,229,223,0.2)', label: 'RESEARCH' },
+  industry: { color: 'var(--accent-copper)', bg: 'rgba(240,165,108,0.1)', border: 'rgba(240,165,108,0.2)', label: 'INDUSTRY' },
+  leadership: { color: 'var(--accent-lilac)', bg: 'rgba(185,169,238,0.1)', border: 'rgba(185,169,238,0.2)', label: 'LEADERSHIP' },
+  education: { color: 'var(--text-muted)', bg: 'rgba(120,132,134,0.1)', border: 'rgba(120,132,134,0.2)', label: 'EDUCATION' },
+}
 
 export function Timeline() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -103,28 +86,25 @@ export function Timeline() {
       ref={containerRef}
       id="timeline"
       style={{
-        position: 'relative', zIndex: 10, maxWidth: 1200, margin: '0 auto 120px', padding: '0 32px',
+        position: 'relative', zIndex: 10, maxWidth: 1280, margin: '0 auto 120px', padding: '0 32px',
       }}
       aria-labelledby="timeline-title"
     >
       <div style={{ marginBottom: 40 }}>
         <span className="section-index">04 / 06</span>
-        <h2 id="timeline-title" style={{ marginTop: 8 }}>Research Timeline</h2>
-        <p style={{ marginTop: 12, color: '#9b9a94', maxWidth: 600, fontSize: 16 }}>
-          Chronological record of research positions, engineering roles, honors, and education.
+        <h2 id="timeline-title" style={{ marginTop: 8 }}>Research & Experience Timeline</h2>
+        <p style={{ marginTop: 12, color: 'var(--text-muted)', maxWidth: 600, fontSize: 16 }}>
+          Chronological record of research positions, engineering roles, leadership, and education.
         </p>
       </div>
 
       <div style={{ position: 'relative', paddingLeft: 32 }}>
-        <div style={{
-          position: 'absolute', left: 15, top: 0, bottom: 0, width: 1,
-          background: 'linear-gradient(180deg, transparent, rgba(78,205,196,0.3) 20%, rgba(78,205,196,0.3) 80%, transparent)',
-        }} />
+        <div className="timeline-line" />
 
         {timelineItems.map((item, index) => {
           const isVisible = visibleItems.has(index)
-          const dotColor = item.type === 'honor' ? '#b87333' : item.type === 'education' ? '#4ecdc4' : '#4ecdc4'
-          const borderColor = item.type === 'honor' ? 'rgba(184,115,51,0.3)' : 'rgba(78,205,196,0.3)'
+          const styles = typeStyles[item.type]
+          const dotColor = styles.color
 
           return (
             <div
@@ -139,39 +119,32 @@ export function Timeline() {
             >
               <div style={{
                 position: 'absolute', left: -32, top: 6, width: 12, height: 12,
-                borderRadius: '50%', background: dotColor, border: `3px solid #121212`,
-                boxShadow: `0 0 0 1px ${borderColor}`,
+                borderRadius: '50%', background: dotColor, border: `3px solid var(--bg-void)`,
+                boxShadow: `0 0 0 1px ${styles.border}`,
                 zIndex: 1,
               }} />
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
                 <span className="meta-label" style={{ whiteSpace: 'nowrap' }}>{item.date}</span>
-                {item.type === 'honor' && (
-                  <span style={{
-                    fontFamily: 'var(--mono)', fontSize: 10, textTransform: 'uppercase',
-                    letterSpacing: 1, color: '#b87333', background: 'rgba(184,115,51,0.1)',
-                    border: '1px solid rgba(184,115,51,0.2)', borderRadius: 4, padding: '2px 8px',
-                  }}>Honor</span>
-                )}
-                {item.type === 'education' && (
-                  <span style={{
-                    fontFamily: 'var(--mono)', fontSize: 10, textTransform: 'uppercase',
-                    letterSpacing: 1, color: '#4ecdc4', background: 'rgba(78,205,196,0.1)',
-                    border: '1px solid rgba(78,205,196,0.2)', borderRadius: 4, padding: '2px 8px',
-                  }}>Education</span>
-                )}
+                <span style={{
+                  fontFamily: 'var(--font-mono)', fontSize: 10, textTransform: 'uppercase',
+                  letterSpacing: 1, color: styles.color, background: styles.bg,
+                  border: `1px solid ${styles.border}`, borderRadius: 3, padding: '2px 8px',
+                }}>
+                  {styles.label}
+                </span>
               </div>
 
               <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 4 }}>{item.title}</h3>
               <div style={{
-                fontSize: 14, color: '#4ecdc4', marginBottom: 4,
+                fontSize: 14, color: styles.color, marginBottom: 4,
                 display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
               }}>
                 <span>{item.org}</span>
-                <span style={{ color: '#6b6a65', fontFamily: 'var(--mono)', fontSize: 11 }}>{item.location}</span>
+                <span style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: 11 }}>{item.location}</span>
               </div>
 
-              <p style={{ fontSize: 14, color: '#9b9a94', lineHeight: 1.7 }}>
+              <p style={{ fontSize: 14, color: 'var(--text-soft)', lineHeight: 1.7 }}>
                 {item.description}
               </p>
             </div>
@@ -179,8 +152,8 @@ export function Timeline() {
         })}
 
         <div style={{
-          position: 'absolute', left: 15, bottom: -20, width: 12, height: 12,
-          borderRadius: '50%', background: '#121212', border: '1px solid rgba(155,154,148,0.2)',
+          position: 'absolute', left: 11, bottom: -20, width: 12, height: 12,
+          borderRadius: '50%', background: 'var(--bg-void)', border: '1px solid rgba(141,168,168,0.2)',
         }} />
       </div>
 
@@ -188,7 +161,7 @@ export function Timeline() {
         @media (max-width: 600px) {
           div[style*="paddingLeft: 32"] { padding-left: 24; }
           div[style*="left: -32"] { left: -24; }
-          div[style*="left: 15"] { left: 11; }
+          .timeline-line { left: 11; }
         }
       `}</style>
     </section>

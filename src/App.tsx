@@ -1,10 +1,10 @@
 import { Navbar } from './components/Navbar'
 import { HeroSection } from './components/HeroSection'
-import { ResearchMap } from './components/ResearchMap'
-import { ProjectSlider } from './components/ProjectSlider'
+import { OperatingPrinciple } from './components/OperatingPrinciple'
+import { ProjectAtlas } from './components/ProjectAtlas'
 import { Timeline } from './components/Timeline'
-import { PublicationsSection } from './components/PublicationsSection'
-import { SkillsMatrix } from './components/SkillsMatrix'
+import { EvidenceShelf } from './components/EvidenceShelf'
+import { CapabilityGraph } from './components/CapabilityGraph'
 import { ContactSection } from './components/ContactSection'
 
 function App() {
@@ -13,11 +13,11 @@ function App() {
       <Navbar />
       <main id="main">
         <HeroSection />
-        <ResearchMap />
-        <ProjectSlider />
+        <OperatingPrinciple />
+        <ProjectAtlas />
         <Timeline />
-        <PublicationsSection />
-        <SkillsMatrix />
+        <EvidenceShelf />
+        <CapabilityGraph />
         <ContactSection />
       </main>
     </>
